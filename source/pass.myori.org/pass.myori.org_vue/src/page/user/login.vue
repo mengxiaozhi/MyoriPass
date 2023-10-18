@@ -7,30 +7,31 @@ export default{
             username: '',
             password: '',
             remember: false,
-            status: 0 //初始化登入狀態
+            status: 0 
         };
     },
     methods: {
         login() {
-        // 準備 POST 數據
+    //   FormData
         const data = new FormData();
         data.append('username', this.username);
         data.append('password', this.password);
         data.append('remember', this.remember ? '1' : '0');
 
-        // 發送 POST 請求到 PHP 後端
+       
         axios.post('/api/login.php', data)
             .then(response => {
-            console.log(response.data.message);
+            console.log(response.data);
             this.status = response.data.status;
-            if (this.status === 1) {// 数据返回值为1时自动跳转到其他页面
-                this.$router.push('/user'); // 使用路由跳转
+            console.log(this.status)
+            if (this.status === 1) {
+                this.$router.push('/user'); // 跳轉到user
                 }
             })
             .catch(error => {
             // 處理錯誤
             console.error(error);
-            // 如果有 response，则打印 response.data，以便查看后端返回的具体错误信息
+          
             if (error.response) {
                 console.error(error.response.data);
             }

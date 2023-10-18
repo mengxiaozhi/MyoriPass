@@ -1,63 +1,95 @@
 <script>
-import axios from 'axios'
-
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 export default {
-    data() {
-        return {
-            selectedCountry: '',
-            idNumber: '',
-            countries: [],
-            message: "",
-            email: "",
-            name: "",
-            password: "",
-            confirmPassword: ""
-        }
-    },
-    methods: {
-        submitForm(event) {
+    setup() {
+
+        const email = ref('');
+        const name = ref('');
+        const selectedCountry = ref('');
+        const id = ref('');
+        const password = ref('');
+        const confirmPassword = ref('');
+        const registrationSuccess = ref(false);
+        const message = ref('');
+        const countries = ref([]);
+
+        const router = useRouter();
+
+  
+        const submitForm = async (event) => {
             event.preventDefault();
 
-            if (this.password !== this.confirmPassword) {
-                alert("密碼與確認密碼不符，請重新輸入。");
+            if (password.value !== confirmPassword.value) {
+                message.value = "密碼與確認密碼不符，請重新輸入。";
                 return;
             }
-            // 設定成用formdata
-            let formData = new URLSearchParams();
-            formData.append('email', this.email);
-            formData.append('name', this.name);
-            formData.append('countries', this.selectedCountry);
-            formData.append('id', this.id);
-            formData.append('password', this.password);
 
-            axios.post('/api/register.php', formData)
-                .then(response => {
-                    // console.log(response.data);
-                    this.message = response.data.message;
+            const formData = new URLSearchParams();
+            formData.append('email', email.value);
+            formData.append('name', name.value);
+            formData.append('countries', selectedCountry.value);
+            formData.append('id', id.value);
+            formData.append('password', password.value);
 
-                    // 如果註冊成功push到user
-                    if (response.data.message === "成功") {
-                        this.$router.push('/user'); //登入成功push到user.vue
-                    }
-                })
-                .catch(error => {
-                    this.message = "提交時發生錯誤";
-                    alert(this.message);
-                });
-        }
+            try {
+                const response = await axios.post('/api/register.php', formData);
+                //登入狀態
+                if (response.data.includes('註冊成功')) { // 檢查註冊成功
+                    registrationSuccess.value = true;
+                    message.value = response.data;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                
+                    message.value = response.data; 
+                }
+            } catch (error) {
+                message.value = "提交時發生錯誤: " + error.toString();
+            }
+        };
 
+        // 獲取國家數據
+        const fetchCountries = async () => {
+            try {
+                const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
+                countries.value = response.data;
+            } catch (error) {
+                console.error("獲取國家數據時出錯:", error);
+            }
+        };
+        const letToLogin = () => {
+            router.push('/user/login'); 
+        };
 
+        fetchCountries();
+
+       
+        return {
+            email,
+            name,
+            selectedCountry,
+            id,
+            password,
+            confirmPassword,
+            registrationSuccess,
+            message,
+            countries,
+            submitForm,
+            letToLogin
+        };
     },
-    mounted() {
-        axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json')
-            .then(response => {
-                this.countries = response.data;
-            });
-    }
-}
+};
 </script>
 
+
+
+
 <template>
+    <div v-if="registrationSuccess" @click="letToLogin" class="success-message ">
+        <i class="fas fa-check-circle"></i> 註冊成功！<span class="bold-text">點我登入</span>
+    </div>
+
     <h2>注冊MyoriPass</h2>
     <div>
         <h3 class="title-section">關於使用</h3>
@@ -65,6 +97,8 @@ export default {
             提交申請即表示您同意將資料交給苗栗國政府進行資料處理，苗栗國政府將依照GDPR（一般資料處理原則）搜集並保存您的資料。
             如果您的國籍不屬於苗栗國或東亞聯邦成員國，您注冊時將不需要填寫證件碼。
         </p>
+
+
         <h3 class="title-section">輸入帳號資料</h3>
         <form @submit="submitForm">
             <div>
@@ -136,3 +170,27 @@ export default {
     </div>
 </template>
 
+<style scoped>
+.success-message {
+    border: 2px solid blue;
+    background-color: transparent;
+    color: blue;
+    padding: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-message i {
+    margin-right: 6px;
+    margin-top: 2px;
+    color: blue;
+}
+.bold-text {
+    font-weight: bold;
+}
+
+</style>
