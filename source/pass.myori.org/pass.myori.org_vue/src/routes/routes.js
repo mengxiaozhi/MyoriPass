@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import axios from 'axios';
 
 const routes = [
   { name: '首頁', path: '/', component: () => import('../page/home.vue') },
@@ -20,5 +21,23 @@ const router = createRouter({
   routes,//路由表
   mode: 'history' // history 改为 hash
 })
+router.beforeEach((to, from, next) => {
 
+  if (to.path === '/user/login') {
+    axios.get('/api/check_status.php')
+      .then(response => {
+        if (response.data.success) {
+          next({ path: '/user' });
+        } else {
+          next();
+        }
+      })
+      .catch(error => {
+        console.error('登入狀態錯誤:', error);
+        next();
+      });
+  } else {
+    next();
+  }
+});
 export default router

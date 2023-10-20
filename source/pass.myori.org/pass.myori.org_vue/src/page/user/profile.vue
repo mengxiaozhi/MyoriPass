@@ -1,16 +1,17 @@
 <script>
+import axios from 'axios';
 export default{
     data(){
         return{
         selectedCountry: '',
-        countries: [] // 初始化为空数组
+        countries: [] 
         }
     },
     mounted() {
-        // 使用 Axios 请求加载 JSON 数据
+       
         axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json')
             .then(response => {
-            // 将加载的 JSON 数据分配给 Vue 数据属性
+
             this.countries = response.data;
         })
         .catch(error => {

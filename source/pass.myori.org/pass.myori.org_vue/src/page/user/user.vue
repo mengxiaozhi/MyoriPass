@@ -1,6 +1,7 @@
 <script>
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
@@ -9,7 +10,7 @@ export default {
     const countries = ref('');
     const displayedName = ref('');
     const greeting = ref('');
-
+    const router = useRouter();
     const fetchUserData = () => {
       axios.get('/api/user.php')
         .then(response => {
@@ -20,10 +21,12 @@ export default {
             greeting.value = response.data.greeting;
           } else {
             console.error('後端未返回成功響應');
+            router.push('/');
           }
         })
         .catch(error => {
           console.error('獲取數據時出錯', error);
+          userStore.setStatus(0); // 更新用戶狀態
         });
     };
     // qrcode

@@ -1,28 +1,38 @@
-<script>            
-    import axios from 'axios'
+<script>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 
-    export default {
-    data() {
-        return {
-        status: 0 //初始管理界面为隐藏
-        };
-    },
-    mounted() {
-    // 在组件加载后，检查用户登录状态
-    this.check_status();
-    },
-    methods: {
-        check_status(){
-            axios.get('/api/check_status.php').then(response => {
-                this.status = response.data.status;
-                if (this.status === 1) {// 数据返回值为1时自动跳转到其他页面
-                    router.push('/user'); // 使用路由跳转
-                }
-            });
-        }
-    }
+export default {
+  setup() {
+    const router = useRouter(); 
+    const status = ref(0); 
+
+ 
+    onMounted(() => {
+      axios.get('/api/check_status.php')
+        .then(response => {
+          status.value = response.data.status;
+          if (status.value === 1) {
+            router.push('/user'); // 如果用戶已登錄，則導航到用戶頁面
+          }
+        })
+        .catch(error => {
+          console.error('檢查狀態時出錯', error);
+        });
+    });
+
+  
+    return {
+      status
     };
+  }
+};
 </script>
+
+
+
+
 <template>
         <h1>MyoriPass<br>
             苗栗通
