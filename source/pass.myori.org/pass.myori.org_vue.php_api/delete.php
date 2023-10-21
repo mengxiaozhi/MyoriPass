@@ -1,17 +1,5 @@
 <?php
 require '../config.php';
-require '../partial/head.php';
-require '../partial/header.php';
-
-// 检查用户是否已登录
-if (!isset($_SESSION['user'])) {
-    echo '
-        <script type="text/javascript">
-            window.location.href = "../";
-        </script>
-    ';
-    exit();
-} else {
 
     $pdo = new PDO(
         'mysql:host=' . $config['host'] . ';
@@ -38,22 +26,22 @@ if (!isset($_SESSION['user'])) {
                 // 注销用户
                 session_unset();
                 session_destroy();
-                echo '
-                所有資料皆已完成刪除，如需再次使用本服務請重新注冊。
-                <script type="text/javascript">
-                    setTimeout(function() {
-                        window.location.href = "../";
-                    }, 3000); // 设置延迟时间为3秒（3000毫秒）
-                </script>
-            ';            
-                exit();
+                $response = array(
+                    "success" => true,
+                    "message" => "所有資料皆已完成刪除，如需再次使用本服務請重新注冊。"
+                );
             } else {
-                echo '删除帐户时出错，请重试。';
+                $response = array(
+                    "success" => true,
+                    "message" => "删除帐户时出错，请重试。"
+                );
             }
         } else {
-            echo '用户名或密码不正确。'; // 用户名或密码错误时返回错误消息
+            $response = array(
+                "success" => true,
+                "message" => "用户名或密码不正确。"
+            );
         }
     }
-}
-require '../partial/footer.php';
-?>
+    echo json_encode($response);
+    exit();

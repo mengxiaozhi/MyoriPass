@@ -62,4 +62,3 @@ export default {
     </div>
     <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
   </template>
-  

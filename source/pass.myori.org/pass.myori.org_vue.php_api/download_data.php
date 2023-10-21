@@ -1,15 +1,6 @@
 <?php
 session_start(); // 如果尚未启动会话，则启动会话
 
-// 检查用户是否已登录
-if (!isset($_SESSION['user'])) {
-    echo '
-        <script type="text/javascript">
-            window.location.href = "/user";
-        </script>
-    ';
-}
-
 $user = $_SESSION['user'];
 
 // 设置响应头，指示为CSV文件
@@ -27,3 +18,5 @@ fputcsv($output, [$user['email'], $user['name'], $user['countries'], $user['id']
 
 // 关闭文件句柄
 fclose($output);
+
+exit();
