@@ -4,7 +4,7 @@ import { useUserStore } from '@/store/userStore';
 import { useRouter, useRoute } from 'vue-router';
 import info from '@/assets/info.json';
 import axios from 'axios';
-
+import 'animate.css'
 
 const router = useRouter();
 const route = useRoute();
@@ -20,51 +20,51 @@ const menuVisible = ref(false);
 
 // 監聽路由跳轉 跳轉的話關閉導覽列
 watch(route, () => {
-  if (menuVisible.value) {
-    menuVisible.value = false;
-  }
+    if (menuVisible.value) {
+        menuVisible.value = false;
+    }
 });
 
 onMounted(() => {
-  if (info && info.version) {
-    version.value = info.version;
-  } else {
-    console.error("版本號錯誤");
-  }
+    if (info && info.version) {
+        version.value = info.version;
+    } else {
+        console.error("版本號錯誤");
+    }
 });
 
 // 切換選單可見性
 const toggleMenu = () => {
-  menuVisible.value = !menuVisible.value;
+    menuVisible.value = !menuVisible.value;
 };
 
 // 點擊黑黑的地方時關閉選單
 const closeOnOverlay = (event) => {
-  if (event.target === event.currentTarget) {
-    menuVisible.value = false;
-  }
+    if (event.target === event.currentTarget) {
+        menuVisible.value = false;
+    }
 };
 
 // 用戶登出
 const logoutUser = async () => {
-  try {
-    const response = await axios.get('/api/user/exit.php');
-    if (response.data.status === 'success') {
-      userStore.clearUser();
-      userStore.setStatus(0);
-      menuVisible.value = false;
-      router.push('/');
-    } else {
-      throw new Error('登出失敗');
+    try {
+        const response = await axios.get('/api/exit.php');
+        if (response.data.status === 'success') {
+            userStore.clearUser();
+            userStore.setStatus(0);
+            menuVisible.value = false;
+            router.push('/');
+        } else {
+            throw new Error('登出失敗');
+        }
+    } catch (error) {
+        console.error('登出過程中出錯:', error);
     }
-  } catch (error) {
-    console.error('登出過程中出錯:', error);
-  }
 };
 
 // 點擊標題跳轉
 const handleTitleClick = () => {
-  router.push(status.value === 1 ? '/user' : '/');
+    router.push(status.value === 1 ? '/user' : '/');
 };
 </script>
 
@@ -109,9 +109,11 @@ const handleTitleClick = () => {
                             </RouterLink>
                         </li>
                         <li @click="toggleMenu">
-                            <a href="https://pass.myori.org/user/change_password">
+                            <RouterLink to="/user/password">
                                 <p>更改登入密碼</p>
-                            </a>
+                            </RouterLink>
+
+
                         </li>
                         <li @click="logoutUser" style="cursor: pointer;">
                             <a>

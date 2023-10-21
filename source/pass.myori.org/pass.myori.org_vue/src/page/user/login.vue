@@ -32,7 +32,7 @@ export default {
                     // 導航到用戶頁面
                     router.push('/user');
                 } else {
-                    console.log('登錄失敗，請檢查用戶名和密碼。');
+                    alert('登入失敗，請檢查用戶名和密碼。');
                     
                 }
             } catch (error) {
