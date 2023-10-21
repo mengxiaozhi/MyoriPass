@@ -1,5 +1,5 @@
 <?php 
-require '/config.php';
+require 'config.php';
 
 $pdo = new PDO(
     'mysql:host=' . $config['host'] . ';

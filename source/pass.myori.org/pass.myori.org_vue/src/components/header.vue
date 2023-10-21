@@ -1,22 +1,27 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useUserStore } from '@/store/userStore';
-import { useRouter } from 'vue-router';
-import info from '@/assets/info.json'; 
-import 'animate.css';
+import { useRouter, useRoute } from 'vue-router';
+import info from '@/assets/info.json';
 import axios from 'axios';
 
 
 const router = useRouter();
+const route = useRoute();
+// 用戶狀態管理
 const userStore = useUserStore();
+// 版本資訊
 const version = ref('');
-
-
+// 用戶登入狀態
 const status = computed(() => userStore.status);
-const menuVisible = computed({
-  get: () => userStore.menuVisible,
-  set: (value) => {
-    userStore.menuVisible = value;  
+
+// 控制選單可見性
+const menuVisible = ref(false);
+
+// 監聽路由跳轉 跳轉的話關閉導覽列
+watch(route, () => {
+  if (menuVisible.value) {
+    menuVisible.value = false;
   }
 });
 
@@ -28,19 +33,27 @@ onMounted(() => {
   }
 });
 
-
+// 切換選單可見性
 const toggleMenu = () => {
   menuVisible.value = !menuVisible.value;
 };
 
-// 處理用戶登出
+// 點擊黑黑的地方時關閉選單
+const closeOnOverlay = (event) => {
+  if (event.target === event.currentTarget) {
+    menuVisible.value = false;
+  }
+};
+
+// 用戶登出
 const logoutUser = async () => {
   try {
     const response = await axios.get('/api/user/exit.php');
     if (response.data.status === 'success') {
-      userStore.clearUser();  // 清空用戶資訊
-      menuVisible.value = false;  // 關閉選單
-      router.push('/');  // 返回首頁
+      userStore.clearUser();
+      userStore.setStatus(0);
+      menuVisible.value = false;
+      router.push('/');
     } else {
       throw new Error('登出失敗');
     }
@@ -49,12 +62,11 @@ const logoutUser = async () => {
   }
 };
 
-// 點擊標題時的行為
+// 點擊標題跳轉
 const handleTitleClick = () => {
   router.push(status.value === 1 ? '/user' : '/');
 };
 </script>
-
 
 <template>
     <header>
@@ -74,8 +86,8 @@ const handleTitleClick = () => {
         </button>
     </header>
     <!--header-->
-    <div v-if="menuVisible" class="hidden-menu-wrap animate__animated animate__fadeIn" id="hidden-menu">
-        <div class="hidden-menu animate__animated animate__fadeInLeftBig">
+    <div v-if="menuVisible" class="hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">
+        <div class="hidden-menu animate__animated animate__fadeInLeftBig" @click.stop>
             <div style="display:flex;justify-content: space-between;padding-left:30px;">
                 <div style="display:flex">
                     <img src="/logo.png" alt="logo" style="height: 37px; width: 37px;padding-top:1em;padding-right:10px;">
@@ -91,15 +103,16 @@ const handleTitleClick = () => {
                         <p>賬號管理</P>
                     </div>
                     <ul>
-                        <li>
+                        <li @click="toggleMenu">
                             <RouterLink to="/user/profile">
                                 <p>賬戶資料管理</p>
                             </RouterLink>
-
                         </li>
-                        <li><a href="https://pass.myori.org/user/change_password">
+                        <li @click="toggleMenu">
+                            <a href="https://pass.myori.org/user/change_password">
                                 <p>更改登入密碼</p>
-                            </a></li>
+                            </a>
+                        </li>
                         <li @click="logoutUser" style="cursor: pointer;">
                             <a>
                                 <p>退出登入</p>
@@ -128,4 +141,5 @@ const handleTitleClick = () => {
                 </P>
             </div>
         </div>
-</div></template>
+    </div>
+</template>
