@@ -14,6 +14,8 @@ const password = ref('')
 // 用戶狀態管理
 const userStore = useUserStore();
 const router = useRouter();
+
+
 // 載入用戶原本資料
 const loadData = async () => {
     try {
@@ -23,10 +25,13 @@ const loadData = async () => {
             name.value = response.data.name;
             selectedCountry.value = response.data.countries;
             id.value = response.data.id;
+
         } else {
             console.error('無法取得profile');
+
         }
     } catch (error) {
+
         console.error('Error loading profile:', error);
     }
 };
@@ -69,16 +74,23 @@ const deleteAccount = async () => {
         console.error('帳號刪除發生錯誤', error)
     }
 };
-// 載入國家
+// 載入國家列表並設置默認值
 onMounted(async () => {
-    await loadData();
+    await loadData(); // 先加載用戶數據
+
     try {
         const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
         countries.value = response.data;
+
+        // 如果從用戶資料中獲得了國家資訊，那麼設置它，否則設置為列表中的第一個國家
+        if (!selectedCountry.value && countries.value.length > 0) {
+            selectedCountry.value = countries.value[0].code; // 這裡假設 code 是國家代碼
+        }
     } catch (error) {
         console.error('Error loading countries:', error);
     }
 });
+
 </script>
 <template>
     <h2>管理MyoriPas賬號資料</h2>
@@ -104,7 +116,8 @@ onMounted(async () => {
             </label>
             <select v-model="selectedCountry" name="countries" required>
                 <option value="">請選擇國家</option>
-                <option v-for="country in countries" :value="country.code">{{ country.name }}</option>
+                <option v-for="(country, index) in countries" :key="index" :value="country.code">{{ country.name }}
+                </option>
             </select>
         </div>
         <div name="id">
@@ -162,3 +175,4 @@ onMounted(async () => {
         </div>
     </div>
 </template>
+
