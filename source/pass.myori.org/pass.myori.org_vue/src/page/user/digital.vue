@@ -1,4 +1,79 @@
+<script>
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+export default {
+    setup() {
+
+        const email = ref('');
+        const name = ref('');
+        const selectedCountry = ref('');
+        const password = ref('');
+        const confirmPassword = ref('');
+        const registrationSuccess = ref(false);
+        const message = ref('');
+        const countries = ref([]);
+
+        const router = useRouter();
+
+  
+        const submitForm = async (event) => {
+            event.preventDefault();
+
+            if (password.value !== confirmPassword.value) {
+                message.value = "密碼與確認密碼不符，請重新輸入。";
+                return;
+            }
+
+            const formData = new URLSearchParams();
+            formData.append('email', email.value);
+            formData.append('name', name.value);
+            formData.append('countries', selectedCountry.value);
+            formData.append('password', password.value);
+
+            try {
+                const response = await axios.post('/api/digital.php', formData);
+                //登入狀態
+                if (response.data.includes('註冊成功')) { // 檢查註冊成功
+                    registrationSuccess.value = true;
+                    message.value = response.data;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    message.value = response.data; 
+                }
+            } catch (error) {
+                message.value = "提交時發生錯誤: " + error.toString();
+            }
+        };
+        const letToLogin = () => {
+            router.push('/user/login'); 
+        };
+
+        fetchCountries();
+
+       
+        return {
+            email,
+            name,
+            selectedCountry,
+            id,
+            password,
+            confirmPassword,
+            registrationSuccess,
+            message,
+            countries,
+            submitForm,
+            letToLogin
+        };
+    },
+};
+</script>
+
 <template>
+<div v-if="registrationSuccess" @click="letToLogin" class="success-message ">
+    <i class="fas fa-check-circle"></i> 註冊成功！<span class="bold-text">點我登入</span>
+</div>
+
 <h2>注冊成爲苗栗國數位公民</h2>
         <h3 class="title-section">關於使用</h3>
         <p style="display: flex;justify-content: center;">
@@ -42,3 +117,28 @@
             </form>
         </div>
 </template>
+
+<style scoped>
+.success-message {
+    border: 2px solid blue;
+    background-color: transparent;
+    color: blue;
+    padding: 10px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-message i {
+    margin-right: 6px;
+    margin-top: 2px;
+    color: blue;
+}
+.bold-text {
+    font-weight: bold;
+}
+
+</style>

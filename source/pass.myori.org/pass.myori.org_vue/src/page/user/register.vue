@@ -89,7 +89,6 @@ export default {
 <template>
     <div v-if="registrationSuccess" @click="letToLogin" class="success-message ">
         <i class="fas fa-check-circle"></i> 註冊成功！<span class="bold-text">點我登入</span>
-   
     </div>
 
     <h2>注冊MyoriPass</h2>
