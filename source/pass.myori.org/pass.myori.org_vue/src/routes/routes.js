@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import axios from 'axios';
-
+import { useUserStore } from '@/store/userStore';
 const routes = [
   { name: '首頁', path: '/', component: () => import('../page/home.vue') },
   { name: '使用規約', path: '/terms', component: () => import('../page/terms.vue') },
@@ -23,22 +23,20 @@ const router = createRouter({
   mode: 'history' // history 改为 hash
 })
 router.beforeEach((to, from, next) => {
-
-  if (to.path === '/user/login') {
-    axios.get('/api/check_status.php')
-      .then(response => {
-        if (response.data.success) {
-          next({ path: '/user' });
-        } else {
-          next();
-        }
-      })
-      .catch(error => {
-        console.error('登录状态检查失败', error);
-        next();
-      });
-  } else {
-    next();
-  }
+  // 在每个页面加载时触发检查用户状态
+  axios.get('/api/check_status.php')
+    .then(response => {
+      const userStore = useUserStore();
+      if (response.data.success) {
+        userStore.setStatus(1); // 设置用户状态为 1 表示已登录
+      } else {
+        userStore.setStatus(0); // 设置用户状态为 0 表示未登录
+      }
+      next();
+    })
+    .catch(error => {
+      console.error('用户状态检查失败', error);
+      next();
+    });
 });
 export default router
