@@ -57,13 +57,13 @@ const deleteAccount = async () => {
 
         const response = await axios.post('/api/delete.php', formData);
 
-        if (response.data.success) {
-            alert('帳號已刪除')
-             userStore.clearUser();
+        if (response.data.success == true) {
+            alert(response.data.message)
+            userStore.clearUser();
             userStore.setStatus(0);
             router.push('/');
         } else {
-            console.log(response.data)
+            alert(response.data.message)
         }
     } catch (error) {
         console.error('帳號刪除發生錯誤', error)

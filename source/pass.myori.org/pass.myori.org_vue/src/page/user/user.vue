@@ -2,10 +2,12 @@
 import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-
+import { useUserStore } from '@/store/userStore';
 export default {
   setup() {
 
+    // 用戶狀態管理
+    const userStore = useUserStore();
     const qrCodeUrl = ref('');
     const countries = ref('');
     const displayedName = ref('');
@@ -19,8 +21,9 @@ export default {
             countries.value = response.data.countries;
             displayedName.value = response.data.displayedName;
             greeting.value = response.data.greeting;
+            userStore.setStatus(1);
           } else {
-       
+
             router.push('/');
           }
         })
@@ -52,13 +55,13 @@ export default {
 };
 </script>
 <template>
-    <h1>
-      {{ displayedName }} ， {{ greeting }}<br>
-      歡迎回來
-    </h1>
-    <h3 class="title-section">個人識別碼 QR-ID</h3>
-    <div style="display:flex;justify-content:center;">
-      <img :src="qrCodeImageUrl" alt="QR-ID">
-    </div>
-    <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
-  </template>
+  <h1>
+    {{ displayedName }} ， {{ greeting }}<br>
+    歡迎回來
+  </h1>
+  <h3 class="title-section">個人識別碼 QR-ID</h3>
+  <div style="display:flex;justify-content:center;">
+    <img :src="qrCodeImageUrl" alt="QR-ID">
+  </div>
+  <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
+</template>

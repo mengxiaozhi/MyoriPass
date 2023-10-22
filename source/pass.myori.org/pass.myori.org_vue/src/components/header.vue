@@ -1,13 +1,12 @@
 <script setup>
-import { ref, onMounted, computed, watch,nextTick  } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useUserStore } from '@/store/userStore';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import info from '@/assets/info.json';
 import axios from 'axios';
-import 'animate.css'
+import 'animate.css';
 
 const router = useRouter();
-const route = useRoute();
 // 用戶狀態管理
 const userStore = useUserStore();
 // 版本資訊
@@ -15,16 +14,8 @@ const version = ref('');
 // 用戶登入狀態
 const status = computed(() => userStore.status);
 
-// 控制選單可見性
+// 控制菜單可見性
 const menuVisible = ref(false);
-
-// 監聽路由跳轉 跳轉的話關閉導覽列
-watch(route,async () => {
-    if (menuVisible.value) {
-        await nextTick();
-        menuVisible.value = false;
-    }
-});
 
 onMounted(() => {
     if (info && info.version) {
@@ -34,17 +25,15 @@ onMounted(() => {
     }
 });
 
-// 切換選單可見性
+// 切換菜單可見性
 const toggleMenu = () => {
     menuVisible.value = !menuVisible.value;
 };
 
-// 點擊黑黑的地方時關閉選單
-// const closeOnOverlay = (event) => {
-//     if (event.target === event.currentTarget) {
-//         menuVisible.value = false;
-//     }
-// };
+// 點擊標題跳轉
+const handleTitleClick = () => {
+    router.push(status.value === 1 ? '/user' : '/');
+};
 
 // 用戶登出
 const logoutUser = async () => {
@@ -62,12 +51,10 @@ const logoutUser = async () => {
         console.error('登出過程中出錯:', error);
     }
 };
-
-// 點擊標題跳轉
-const handleTitleClick = () => {
-    router.push(status.value === 1 ? '/user' : '/');
-};
 </script>
+
+
+
 
 <template>
     <header>
@@ -128,12 +115,12 @@ const handleTitleClick = () => {
                 </div>
                 <ul>
                     <li>
-                        <RouterLink to="terms">
+                        <RouterLink to="/terms">
                             <p>使用規約</p>
                         </RouterLink>
                     </li>
                     <li>
-                        <RouterLink to="privacy">
+                        <RouterLink to="/privacy">
                             <p>個人隱私權條款</p>
                         </RouterLink>
                     </li>

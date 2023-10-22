@@ -42,7 +42,7 @@ export default {
                     message.value = response.data;
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                
+                alert(response.data.success)
                     message.value = response.data; 
                 }
             } catch (error) {
