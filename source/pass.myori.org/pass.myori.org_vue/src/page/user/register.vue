@@ -173,9 +173,9 @@ export default {
 
 <style scoped>
 .success-message {
-    border: 2px solid blue;
+    border: 2px solid #0017c1;
     background-color: transparent;
-    color: blue;
+    color: #0017c1;
     padding: 10px;
     margin-bottom: 15px;
     cursor: pointer;
@@ -188,7 +188,7 @@ export default {
 .success-message i {
     margin-right: 6px;
     margin-top: 2px;
-    color: blue;
+    color: #0017c1;
 }
 .bold-text {
     font-weight: bold;
