@@ -6,7 +6,3 @@ $config = array(
     'username' => 'myoripass',
     'password' => 'myoripass233',
 );
-
-$app = array(
-    'version' => '0.77'
-);

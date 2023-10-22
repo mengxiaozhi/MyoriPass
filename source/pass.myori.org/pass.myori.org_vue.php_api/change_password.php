@@ -3,7 +3,6 @@ require 'config.php';
 session_start();
 $user = $_SESSION['user'];
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $oldPassword = $_POST['old_password'];
     $newPassword = $_POST['new_password'];

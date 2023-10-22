@@ -15,7 +15,6 @@
         $greeting = "晚上好";
     }
 
-
     // QR-ID API
     date_default_timezone_set("Asia/Taipei");
     
@@ -43,7 +42,6 @@
     } else {
         $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . str_repeat('◯', $nameLength - 2) . mb_substr($user['name'], -1, 1, 'UTF-8'); // 只显示头尾，中间用"O"代替
     }
-
     
     $response = array(
         "success" => true,

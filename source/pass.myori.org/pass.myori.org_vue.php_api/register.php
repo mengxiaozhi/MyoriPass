@@ -21,13 +21,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $emailExists = $emailCheckStmt->fetchColumn();
 
     if ($emailExists) {
-        echo '該電子郵件地址已被註冊。';
+        $response = array(
+            "success" => true,
+            "message" => "該電子郵件地址已被註冊。"
+        );
     } else {
         $insertStmt = $pdo->prepare('INSERT INTO user (email, name, countries, id, password) VALUES (?, ?, ?, ?, ?)');
         if ($insertStmt->execute([$email, $name, $countries, $id, $hashedPassword])) {
-            echo '註冊成功! <a href="https://pass.myori.org">去登入</a>';
+            $response = array(
+                "success" => true,
+                "message" => "註冊成功!"
+            );
         } else {
-            echo '錯誤，請重試';
+            $response = array(
+                "success" => true,
+                "message" => "錯誤，請重試."
+            );
         }
     }
 }
+
+echo json_encode($response);
+exit();

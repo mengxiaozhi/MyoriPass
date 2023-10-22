@@ -29,4 +29,3 @@ echo json_encode($response);
 
 // 结束脚本执行
 exit();
-?>
