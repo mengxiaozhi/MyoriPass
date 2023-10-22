@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch,nextTick  } from 'vue';
 import { useUserStore } from '@/store/userStore';
 import { useRouter, useRoute } from 'vue-router';
 import info from '@/assets/info.json';
@@ -19,8 +19,9 @@ const status = computed(() => userStore.status);
 const menuVisible = ref(false);
 
 // 監聽路由跳轉 跳轉的話關閉導覽列
-watch(route, () => {
+watch(route,async () => {
     if (menuVisible.value) {
+        await nextTick();
         menuVisible.value = false;
     }
 });
@@ -39,11 +40,11 @@ const toggleMenu = () => {
 };
 
 // 點擊黑黑的地方時關閉選單
-const closeOnOverlay = (event) => {
-    if (event.target === event.currentTarget) {
-        menuVisible.value = false;
-    }
-};
+// const closeOnOverlay = (event) => {
+//     if (event.target === event.currentTarget) {
+//         menuVisible.value = false;
+//     }
+// };
 
 // 用戶登出
 const logoutUser = async () => {

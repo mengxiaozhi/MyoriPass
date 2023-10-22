@@ -1,84 +1,85 @@
-<script>
+<script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/userStore';
 
-export default {
-  setup() {
-    // 創建反應式變量
-    const email = ref('');
-    const name = ref('');
-    const selectedCountry = ref('');
-    const id = ref('');
-    const countries = ref([]);
-    const isDeleteWindowVisible = ref(false); // 控制刪除窗口的顯示
-
-    // 加載個人資料數據
-    const loadData = async () => {
-      try {
-        const response = await axios.get('/api/profile.php');
+const email = ref('');
+const name = ref('');
+const selectedCountry = ref('');
+const id = ref('');
+const countries = ref([]);
+const isDeleteWindowVisible = ref(false);
+const password = ref('')
+// 用戶狀態管理
+const userStore = useUserStore();
+const router = useRouter();
+// 載入用戶原本資料
+const loadData = async () => {
+    try {
+        const response = await axios.get('/api/profile_get.php');
         if (response.data.success) {
-          email.value = response.data.email;
-          name.value = response.data.name;
-          selectedCountry.value = response.data.country; // 這裡應該是單數形式
-          id.value = response.data.id;
+            email.value = response.data.email;
+            name.value = response.data.name;
+            selectedCountry.value = response.data.countries;
+            id.value = response.data.id;
         } else {
-          console.error('無法獲取個人資料');
+            console.error('無法取得profile');
         }
-      } catch (error) {
-        console.error('加載數據時出錯', error);
-      }
-    };
+    } catch (error) {
+        console.error('Error loading profile:', error);
+    }
+};
+// 提交修改
+const submitForm = async () => {
+    const formData = new URLSearchParams();
+    formData.append('email', email.value);
+    formData.append('name', name.value);
+    formData.append('countries', selectedCountry.value);
+    formData.append('id', id.value);
+    try {
+        const response = await axios.post('/api/profile_change.php', formData);
+        alert(response.data.message);
+    } catch (error) {
+        console.error('提交錯誤', error);
+    }
+};
+// 刪除資料顯示
+const toggleDeleteWindow = () => {
+    isDeleteWindowVisible.value = !isDeleteWindowVisible.value;
+};
 
-    // 提交表單
-    const submitForm = async () => {
-      let formData = new URLSearchParams();
-      formData.append('email', email.value);
-      formData.append('name', name.value);
-      formData.append('country', selectedCountry.value); // 這裡應該是單數形式
-      formData.append('id', id.value);
+const deleteAccount = async () => {
+    try {
+        const formData = new URLSearchParams();
+        formData.append('username', email.value);
+        formData.append('password', password.value);
 
-      try {
-        const response = await axios.post('/api/profile.php', formData);
+        const response = await axios.post('/api/delete.php', formData);
+
         if (response.data.success) {
-          alert('資料更新成功');
+            alert('帳號已刪除')
+             userStore.clearUser();
+            userStore.setStatus(0);
+            router.push('/');
         } else {
-          console.error('數據提交失敗');
+            console.log(response.data)
         }
-      } catch (error) {
-        console.error('提交表單時出錯', error);
-      }
-    };
-
-    // 加載國家數據
-    const loadCountries = async () => {
-      try {
+    } catch (error) {
+        console.error('帳號刪除發生錯誤', error)
+    }
+};
+// 載入國家
+onMounted(async () => {
+    await loadData();
+    try {
         const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
         countries.value = response.data;
-      } catch (error) {
-        console.error('加載國家數據時出錯:', error);
-      }
-    };
-
-    // 在組件掛載後執行
-    onMounted(() => {
-      loadData();
-      loadCountries();
-    });
-
-    // 返回值以使它們在模板中可用
-    return {
-      email,
-      name,
-      selectedCountry,
-      id,
-      countries,
-      isDeleteWindowVisible,
-      submitForm,
-    };
-  },
-};
+    } catch (error) {
+        console.error('Error loading countries:', error);
+    }
+});
 </script>
-
 <template>
     <h2>管理MyoriPas賬號資料</h2>
     <h3 class="title-section">更新帳號基本資料</h3>
@@ -135,31 +136,24 @@ export default {
         </a>
     </div>
     <div class="warning">
-        <button class="btn btn-default icn_button" id="delete">
+        <button class="btn btn-default icn_button" @click="toggleDeleteWindow">
             <img src="/icn_attention.svg" alt="warning">
             <h3>刪除全部資料</h3>
         </button>
     </div>
-    <div id="hidden-window" style="display:">
+    <div id="hidden-window" v-show="isDeleteWindowVisible">
         <h2>刪除全部資料</h2>
         <h3 class="title-section">驗證密碼</h3>
         <div>
-            <form action="delete.php" method="post">
-                <div style="display:none;">
-                    <label>
-                        <h3>MyNumber編號 或 Email地址</h3>
-                    </label>
-                    <input type="text" name="username" placeholder="MyNumber編號 & Email"
-                        value="<?php echo $user['email']; ?>" required>
-                </div>
+            <form @submit.prevent="deleteAccount">
                 <div>
                     <label>
                         <h3>密碼</h3>
                     </label>
-                    <input type="password" name="password" placeholder="密碼" required>
+                    <input type="password" v-model="password" placeholder="密碼" required>
                 </div>
                 <div class="warning">
-                    <button class="btn btn-default icn_button" id="delete">
+                    <button type="submit" class="btn btn-default icn_button" id="delete">
                         <img src="/icn_attention.svg" alt="warning">
                         <h3>確認刪除資料</h3>
                     </button>

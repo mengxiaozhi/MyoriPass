@@ -20,7 +20,7 @@ export default {
             displayedName.value = response.data.displayedName;
             greeting.value = response.data.greeting;
           } else {
-            console.error('後端未返回成功響應');
+       
             router.push('/');
           }
         })

@@ -36,7 +36,8 @@ export default {
             try {
                 const response = await axios.post('/api/register.php', formData);
                 //登入狀態
-                if (response.data.includes('註冊成功')) { // 檢查註冊成功
+                console.log(response.data)
+                if (response.data.success === true) { // 檢查註冊成功
                     registrationSuccess.value = true;
                     message.value = response.data;
                     window.scrollTo({ top: 0, behavior: 'smooth' });
