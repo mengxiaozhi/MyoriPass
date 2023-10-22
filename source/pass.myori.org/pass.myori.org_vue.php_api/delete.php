@@ -1,6 +1,6 @@
 <?php
-require '../config.php';
-
+require 'config.php';
+session_start();
     $pdo = new PDO(
         'mysql:host=' . $config['host'] . ';
         dbname=' . $config['dbname'] . ';

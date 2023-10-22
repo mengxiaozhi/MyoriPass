@@ -1,12 +1,14 @@
 <?php
-require '../config.php';
-
+require 'config.php';
+session_start();
 $user = $_SESSION['user'];
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $oldPassword = $_POST['old_password'];
     $newPassword = $_POST['new_password'];
 
+    
     $conn = new mysqli($config['host'], $config['username'], $config['password'], $config['dbname']);
 
     if ($conn->connect_error) {
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode($response);
             } else {
                 $response = array(
-                    "success" => true,
+                    "success" => false,
                     "message" => "密碼更新失敗，未知錯誤。"
                 );
                 echo json_encode($response);
@@ -42,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $response = array(
                 "success" => true,
-                "message" => "舊密碼不正缺。"
+                "message" => "舊密碼不正確。"
             );
             echo json_encode($response);
         }
