@@ -1,21 +1,8 @@
 <?php 
 require 'config.php';
+
 session_start();
 $user = $_SESSION['user'];  // 将用户信息存入会话
-
-$s_email = $user['email'];
-$s_name = $user['name'];
-$s_countries = $user["countries"];
-$s_id = $user['id'];
-
-$response = array(
-    "success" => true,
-    "email" => $s_email,
-    "name" => $s_name,
-    "countries" => $s_countries,
-    "id" => $s_id
-);
-echo json_encode($response);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -87,4 +74,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    exit();
+exit();
