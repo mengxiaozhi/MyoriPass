@@ -114,12 +114,12 @@ const logoutUser = async () => {
                     <p>App資訊</P>
                 </div>
                 <ul>
-                    <li>
+                    <li @click="toggleMenu">
                         <RouterLink to="/terms">
                             <p>使用規約</p>
                         </RouterLink>
                     </li>
-                    <li>
+                    <li @click="toggleMenu">
                         <RouterLink to="/privacy">
                             <p>個人隱私權條款</p>
                         </RouterLink>
