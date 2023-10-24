@@ -72,12 +72,13 @@ const logoutUser = async () => {
                 <img src="/icn_help.svg" alt="Help" style="height: 27px; width: 27px;">
             </a>
         </button>
-
-        <button class="menu-btn" v-if="status === 1">
-            <a href="https://pass-view.myori.org/">
+        <div v-if="status === 1">
+            <button class="menu-btn">
+            <RouterLink to="/user/reader">
                 <img src="/icn_reader.svg" alt="Help" style="height: 27px; width: 27px;">
-            </a>
+            </RouterLink>
         </button>
+        </div>
     </header>
     <!--header-->
     <div v-if="menuVisible" class="hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">

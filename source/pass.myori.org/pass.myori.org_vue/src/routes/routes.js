@@ -11,6 +11,7 @@ const routes = [
   { name: '用戶首頁', path: '/user', component: () => import('../page/user/user.vue') },
   { name: '用戶管理', path: '/user/profile', component: () => import('../page/user/profile.vue') },
   { name: '更改密碼', path: '/user/password', component: () => import('../page/user/password.vue') },
+  { name: '主動授權', path: '/user/reader', component: () => import('../page/user/reader.vue') }
 ]
 
 const router = createRouter({
