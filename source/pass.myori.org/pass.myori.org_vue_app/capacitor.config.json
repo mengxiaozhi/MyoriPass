@@ -1,0 +1,10 @@
+{
+  "appId": "com.example.app",
+  "appName": "pass.myori.org_vue",
+  "webDir": "dist",
+  "server": {
+    "hostname": "pass.myori.org",
+    "androidScheme": "https",
+    "iosScheme": "https"
+  }
+}
