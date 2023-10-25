@@ -91,14 +91,15 @@ export default {
 
 <style>
 section{
-    margin-top: -100px;
-    padding: 0px;
+
+
 }
 
 .QrCode {
     /* width: 100vw; */
     height: 100vh;
     position: relative;
+    z-index: 9;
     #video {
         width: 100%;
         height: 100%;
@@ -112,7 +113,7 @@ section{
     left: 0;
     right: 0;
     bottom: 0;
-    /* z-index: 9; */
+    z-index: 1;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);

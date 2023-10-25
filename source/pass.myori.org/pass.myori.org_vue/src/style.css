@@ -24,11 +24,17 @@ header {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 999;
     background-color: #0017c1;
     display: flex;
     justify-content: space-between;
 }
+
+.menuVisible{
+
+    z-index: 99;
+}
+
 .title {
     text-align: center;
 }
