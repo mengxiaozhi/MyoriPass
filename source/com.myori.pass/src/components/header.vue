@@ -38,7 +38,7 @@ const handleTitleClick = () => {
 // 用戶登出
 const logoutUser = async () => {
     try {
-        const response = await axios.get('https://pass.myori.org/api/exit.php');
+        const response = await axios.get('/api/exit.php');
         if (response.data.status === 'success') {
             userStore.clearUser();
             userStore.setStatus(0);
@@ -66,15 +66,19 @@ const logoutUser = async () => {
                 <h1>MyoriPass</h1>
             </div>
         </button>
-
-        <button class="menu-btn">
-            <a href="https://pass-view.myori.org/" target="_blank">
-                <img src="/icn_help.svg" alt="Help" style="height: 27px; width: 27px;">
-            </a>
-        </button>
+            <button  v-if="status === 0" class="menu-btn">
+                <a href="https://pass-view.myori.org/" target="_blank">
+                    <img src="/icn_help.svg" alt="Help" style="height: 27px; width: 27px;">
+                </a>
+            </button>
+            <button v-if="status === 1" class="menu-btn">
+                <RouterLink to="/user/reader">
+                    <img src="/icn_reader.svg" alt="QR-Code_Reader" style="height: 27px; width: 27px;">
+                </RouterLink>
+            </button>
     </header>
     <!--header-->
-    <div v-if="menuVisible" class="hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">
+    <div v-if="menuVisible" class="menuVisible hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">
         <div class="hidden-menu animate__animated animate__fadeInLeftBig" @click.stop>
             <div style="display:flex;justify-content: space-between;padding-left:30px;">
                 <div style="display:flex">

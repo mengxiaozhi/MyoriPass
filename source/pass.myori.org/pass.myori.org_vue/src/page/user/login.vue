@@ -23,7 +23,9 @@ export default {
             data.append('remember', remember.value ? '1' : '0');
 
             try {
-                const response = await axios.post('/api/login.php', data);
+                const response = await axios.post('/api/login.php', data, {
+                    withCredentials: true 
+                });
                 console.log(response.data);
 
                 if (response.data.status === 1) {

@@ -22,8 +22,7 @@ export default {
             formData.append('new_password', form.value.new_password);
 
             try {
-                const response = await axios.post('https://pass.myori.org/api/change_password.php', formData, {
-                    withCredentials: true ,
+                const response = await axios.post('/api/change_password.php', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
