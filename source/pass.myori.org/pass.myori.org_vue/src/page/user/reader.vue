@@ -90,16 +90,14 @@ export default {
 </script>
 
 <style>
-section{
-
-
+.page-scan {
+    margin: -50px;
 }
-
 .QrCode {
     /* width: 100vw; */
     height: 100vh;
     position: relative;
-    z-index: 9;
+    z-index: 1;
     #video {
         width: 100%;
         height: 100%;

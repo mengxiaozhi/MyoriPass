@@ -33,14 +33,12 @@ export default {
                     router.push('/user');
                 } else {
                     alert('登入失敗，請檢查用戶名和密碼。');
-                    
                 }
             } catch (error) {
                 console.error('登錄過程中出錯:', error);
             }
         };
 
-    
         return {
             username,
             password,
