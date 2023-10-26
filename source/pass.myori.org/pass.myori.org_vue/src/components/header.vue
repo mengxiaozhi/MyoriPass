@@ -78,7 +78,7 @@ const logoutUser = async () => {
             </button>
     </header>
     <!--header-->
-    <div v-if="menuVisible" class="hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">
+    <div v-if="menuVisible" class="menuVisible hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">
         <div class="hidden-menu animate__animated animate__fadeInLeftBig" @click.stop>
             <div style="display:flex;justify-content: space-between;padding-left:30px;">
                 <div style="display:flex">

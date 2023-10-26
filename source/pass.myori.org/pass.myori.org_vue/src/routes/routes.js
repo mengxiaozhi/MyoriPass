@@ -11,7 +11,9 @@ const routes = [
   { name: '用戶首頁', path: '/user', component: () => import('../page/user/user.vue') },
   { name: '用戶管理', path: '/user/profile', component: () => import('../page/user/profile.vue') },
   { name: '更改密碼', path: '/user/password', component: () => import('../page/user/password.vue') },
-  { name: '主動授權', path: '/user/reader', component: () => import('../page/user/reader.vue') }
+  { name: '主動授權', path: '/user/reader', component: () => import('../page/user/reader.vue') },
+  { name: 'NotFound', path: '/404', component: () => import('../page/404.vue') },
+  { path: '/:pathMatch(.*)*', redirect: '/404' } 
 ]
 
 const router = createRouter({
@@ -25,7 +27,7 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   // 在每个页面加载时触发检查用户状态
-  axios.get('/api/check_status.php')
+  axios.get('/api/check_status.php',)
     .then(response => {
       const userStore = useUserStore();
       if (response.data.success) {

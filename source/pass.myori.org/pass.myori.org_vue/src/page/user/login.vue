@@ -23,7 +23,9 @@ export default {
             data.append('remember', remember.value ? '1' : '0');
 
             try {
-                const response = await axios.post('/api/login.php', data);
+                const response = await axios.post('/api/login.php', data, {
+                    withCredentials: true 
+                });
                 console.log(response.data);
 
                 if (response.data.status === 1) {
@@ -33,14 +35,12 @@ export default {
                     router.push('/user');
                 } else {
                     alert('登入失敗，請檢查用戶名和密碼。');
-                    
                 }
             } catch (error) {
                 console.error('登錄過程中出錯:', error);
             }
         };
 
-    
         return {
             username,
             password,

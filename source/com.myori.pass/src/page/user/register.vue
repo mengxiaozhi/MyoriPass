@@ -34,9 +34,7 @@ export default {
             formData.append('password', password.value);
 
             try {
-                const response = await axios.post('https://pass.myori.org/api/register.php', formData , {
-                    withCredentials: true 
-                });
+                const response = await axios.post('/api/register.php', formData);
                 //登入狀態
                 console.log(response.data)
                 if (response.data.success === true) { // 檢查註冊成功
