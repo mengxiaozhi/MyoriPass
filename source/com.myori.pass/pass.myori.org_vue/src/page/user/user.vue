@@ -14,7 +14,7 @@ export default {
     const greeting = ref('');
     const router = useRouter();
     const fetchUserData = () => {
-      axios.get('/api/user.php')
+      axios.get('https://pass.myori.org/api/user.php')
         .then(response => {
           if (response.data.success) {
             qrCodeUrl.value = response.data.qrCodeUrl;

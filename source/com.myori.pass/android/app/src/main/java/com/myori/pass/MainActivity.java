@@ -1,4 +1,4 @@
-package com.example.app;
+package com.myori.pass;
 
 import com.getcapacitor.BridgeActivity;
 

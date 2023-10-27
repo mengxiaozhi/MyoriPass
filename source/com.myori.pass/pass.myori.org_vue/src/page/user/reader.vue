@@ -21,6 +21,9 @@
 // WebRTC适配器 只需要引入就ok
 import 'webrtc-adapter'
 import { BrowserMultiFormatReader } from '@zxing/library'
+import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
+
+const { Camera } = Plugins;
 export default {
     name: 'scanCodePage',
     data() {

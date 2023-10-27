@@ -19,7 +19,7 @@ const router = useRouter();
 // 載入用戶原本資料
 const loadData = async () => {
     try {
-        const response = await axios.get('/api/profile_get.php');
+        const response = await axios.get('https://pass.myori.org/api/profile_get.php');
         if (response.data.success) {
             email.value = response.data.email;
             name.value = response.data.name;
@@ -43,7 +43,7 @@ const submitForm = async () => {
     formData.append('countries', selectedCountry.value);
     formData.append('id', id.value);
     try {
-        const response = await axios.post('/api/profile_change.php', formData);
+        const response = await axios.post('https://pass.myori.org/api/profile_change.php', formData);
         alert(response.data.message);
     } catch (error) {
         console.error('提交錯誤', error);
@@ -60,7 +60,7 @@ const deleteAccount = async () => {
         formData.append('username', email.value);
         formData.append('password', password.value);
 
-        const response = await axios.post('/api/delete.php', formData);
+        const response = await axios.post('https://pass.myori.org/api/delete.php', formData);
 
         if (response.data.success == true) {
             alert(response.data.message)
@@ -141,7 +141,7 @@ onMounted(async () => {
     </form>
     <h3 class="title-section">個人資料管理</h3>
     <div class="register">
-        <a href="/api/download_data.php">
+        <a href="https://pass.myori.org/api/download_data.php">
             <button class="btn btn-default icn_button">
                 <img src="/icn_download.svg" alt="dowload">
                 <h3>下載賬號個資</h3>

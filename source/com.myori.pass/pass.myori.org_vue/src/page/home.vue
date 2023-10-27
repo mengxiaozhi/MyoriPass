@@ -10,7 +10,7 @@ export default {
 
  
     onMounted(() => {
-      axios.get('/api/check_status.php')
+      axios.get('https://pass.myori.org/api/check_status.php')
         .then(response => {
           status.value = response.data.status;
           if (status.value === 1) {

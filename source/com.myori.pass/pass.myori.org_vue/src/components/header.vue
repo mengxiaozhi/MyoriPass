@@ -38,7 +38,7 @@ const handleTitleClick = () => {
 // 用戶登出
 const logoutUser = async () => {
     try {
-        const response = await axios.get('/api/exit.php');
+        const response = await axios.get('https://pass.myori.org/api/exit.php');
         if (response.data.status === 'success') {
             userStore.clearUser();
             userStore.setStatus(0);
