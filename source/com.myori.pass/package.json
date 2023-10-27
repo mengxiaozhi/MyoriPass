@@ -25,6 +25,7 @@
     "webrtc-adapter": "^8.2.3"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "vite": "^4.4.5"
   }
