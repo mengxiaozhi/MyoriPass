@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/app": "^5.0.6",
     "@zxing/library": "^0.20.0",
     "animate.css": "^4.1.1",
     "axios": "^1.5.1",

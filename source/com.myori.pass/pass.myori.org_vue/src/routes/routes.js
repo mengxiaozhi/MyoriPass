@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import axios from 'axios';
 import { useUserStore } from '@/store/userStore';
+import { App as CapacitorApp } from '@capacitor/app';
+
 const routes = [
   { name: '首頁', path: '/', component: () => import('../page/home.vue') },
   { name: '使用規約', path: '/terms', component: () => import('../page/terms.vue') },
@@ -15,6 +17,19 @@ const routes = [
   { name: 'NotFound', path: '/404', component: () => import('../page/404.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/404' } 
 ]
+
+
+function handleBackButton({ canGoBack }) {
+  if (!canGoBack) {
+    CapacitorApp.exitApp(); 
+  } else {
+    router.go(-1); 
+  }
+}
+
+
+CapacitorApp.addListener('backButton', handleBackButton);
+
 
 const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
