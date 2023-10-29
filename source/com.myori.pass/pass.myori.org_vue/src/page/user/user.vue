@@ -64,4 +64,18 @@ export default {
     <img :src="qrCodeImageUrl" alt="QR-ID">
   </div>
   <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
+  <h3 class="title-section">身分授權紀錄</h3>
+  <div class="a_list">
+    <h4 style="display: flex; justify-content: center;">無授權/出入國紀錄</h4>
+  </div>
 </template>
+
+<style>
+.a_list{
+  min-height: 117px;
+  border: 1.5px solid #41445040;
+  background-color: #4144501c;
+  border-radius: 11px;
+  padding: 10px;
+  }
+</style>
