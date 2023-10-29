@@ -12,7 +12,6 @@
     "@capacitor/android": "^5.5.1",
     "@capacitor/app": "^5.0.6",
     "@capacitor/camera": "^5.0.7",
-    "@capacitor/cli": "^5.5.1",
     "@capacitor/core": "^5.5.1",
     "@capacitor/ios": "^5.5.1",
     "@zxing/library": "^0.20.0",
@@ -27,6 +26,7 @@
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.1",
+    "@capacitor/cli": "^5.5.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "vite": "^4.4.5"
   }
