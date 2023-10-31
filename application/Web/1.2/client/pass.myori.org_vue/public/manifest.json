@@ -1,0 +1,25 @@
+{
+  "name": "MyoriPass 苗栗通",
+  "short_name": "MyoriPass",
+  "start_url": ".",
+  "display": "standalone",
+  "description": "苗栗國數位政府服務",
+  "theme_color": "#0017c1",
+  "background_color": "#0017c1",
+  "orientation": "portrait",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.myori.pass",
+      "id": "com.myori.pass"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
