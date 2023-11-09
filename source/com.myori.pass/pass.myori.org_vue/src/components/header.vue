@@ -137,3 +137,8 @@ const logoutUser = async () => {
         </div>
     </div>
 </template>
+<style>
+li:hover{
+    background-color: #f3f4f5;
+}
+</style>

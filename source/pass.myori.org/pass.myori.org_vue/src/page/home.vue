@@ -30,9 +30,6 @@ export default {
 };
 </script>
 
-
-
-
 <template>
         <h1>MyoriPass<br>
             苗栗通

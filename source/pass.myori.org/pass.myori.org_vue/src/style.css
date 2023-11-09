@@ -28,6 +28,7 @@ header {
     background-color: #0017c1;
     display: flex;
     justify-content: space-between;
+    box-shadow: 0 2px 6px rgba(132, 132, 132, 0.1019607843);
 }
 
 .menuVisible{
