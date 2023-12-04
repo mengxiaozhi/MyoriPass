@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 // WebRTC适配器 只需要引入就ok
 import 'webrtc-adapter'
 import { BrowserMultiFormatReader } from '@zxing/library'
@@ -67,10 +68,25 @@ export default {
                 'video',
                 (result, err) => {
                     if (result) {
-                        console.log('扫描结果', result)
+                        const scannedText = result.text; //result為全部json objact
+                        console.log('扫描结果', scannedText)
+
+                        // console.log('扫描结果', result)
                         // if (result.text) {
                         //     this.clickIndexLeft(result.text)
                         // }
+
+                         // 使用 Axios 發送 POST 請求
+                        axios.post('/api/reader.php', { scannedText })
+                        .then(response => {
+                        // 處理後端返回的資料
+                        console.log('後端返回的資料', response.data);
+
+                        // 這裡可以根據需要進行進一步的處理或操作
+                        })
+                        .catch(error => {
+                            console.error('POST 請求失敗', error);
+                        });
                     }
                     if (err && !err) {
                         console.error(err)
