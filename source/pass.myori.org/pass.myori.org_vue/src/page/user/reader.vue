@@ -76,17 +76,18 @@ export default {
                         //     this.clickIndexLeft(result.text)
                         // }
 
-                         // 使用 Axios 發送 POST 請求
-                        axios.post('/api/reader.php', { qrdata: scannedText })
-                        .then(response => {
-                        // 處理後端返回的資料
-                        console.log('後端返回的資料', response.data);
+                        // 使用 Axios 發送 POST 請求
+                        const formData = new FormData();
+                        formData.append('qrdata', scannedText);
 
-                        // 這裡可以根據需要進行進一步的處理或操作
-                        })
-                        .catch(error => {
-                            console.error('POST 請求失敗', error);
-                        });
+                        axios.post('/api/reader.php', formData)
+                            .then(response => {
+                                console.log('後端返回的資料', response.data);
+                            })
+                            .catch(error => {
+                                console.error('POST 請求失敗', error);
+                            });
+
                     }
                     if (err && !err) {
                         console.error(err)
@@ -109,11 +110,13 @@ export default {
 .page-scan {
     margin: -50px;
 }
+
 .QrCode {
     /* width: 100vw; */
     height: 100vh;
     position: relative;
     z-index: 1;
+
     #video {
         width: 100%;
         height: 100%;
@@ -132,6 +135,7 @@ export default {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
 }
+
 .Qr_scanner .box {
     width: 75vw;
     height: 75vw;
@@ -142,11 +146,11 @@ export default {
     top: 50%;
     transform: translate(-50%, -50%);
     border: 1px solid #c4c4c4;
+
     .line_row {
         width: 100%;
         overflow: hidden;
-        background-image: linear-gradient(
-                0deg,
+        background-image: linear-gradient(0deg,
                 transparent 24%,
                 rgba(136, 176, 255, 0.1) 25%,
                 rgba(136, 176, 255, 0.1) 26%,
@@ -155,10 +159,8 @@ export default {
                 rgba(136, 176, 255, 0.1) 75%,
                 rgba(136, 176, 255, 0.1) 76%,
                 transparent 77%,
-                transparent
-            ),
-            linear-gradient(
-                90deg,
+                transparent),
+            linear-gradient(90deg,
                 transparent 24%,
                 rgba(136, 176, 255, 0.1) 25%,
                 rgba(136, 176, 255, 0.1) 26%,
@@ -167,8 +169,7 @@ export default {
                 rgba(136, 176, 255, 0.1) 75%,
                 rgba(136, 176, 255, 0.1) 76%,
                 transparent 77%,
-                transparent
-            );
+                transparent);
         background-size: 3rem 3rem;
         background-position: -1rem -1rem;
         animation: Heightchange 2s infinite;
@@ -180,6 +181,7 @@ export default {
         align-items: flex-end;
     }
 }
+
 .Qr_scanner .line {
     width: 100%;
     height: 3px;
@@ -187,6 +189,7 @@ export default {
     opacity: 0.58;
     filter: blur(4px);
 }
+
 .Qr_scanner .box:after,
 .Qr_scanner .box:before,
 .Qr_scanner .angle:after,
@@ -198,40 +201,47 @@ export default {
     height: 78px;
     border: 0.3rem solid transparent;
 }
+
 .Qr_scanner .box:after,
 .Qr_scanner .box:before {
     top: -7px;
     border-top-color: #c4c4c4;
 }
+
 .Qr_scanner .angle:after,
 .Qr_scanner .angle:before {
     bottom: -7px;
     border-bottom-color: #c4c4c4;
 }
+
 .Qr_scanner .box:before,
 .Qr_scanner .angle:before {
     left: -7px;
     border-left-color: #c4c4c4;
 }
+
 .Qr_scanner .box:after,
 .Qr_scanner .angle:after {
     right: -7px;
     border-right-color: #c4c4c4;
 }
+
 @keyframes radar-beam {
     0% {
         transform: translateY(-100%);
     }
+
     100% {
         transform: translateY(0);
     }
 }
+
 @keyframes Heightchange {
     0% {
         height: 0;
     }
+
     100% {
         height: 100%;
     }
-}
-</style>
+}</style>
