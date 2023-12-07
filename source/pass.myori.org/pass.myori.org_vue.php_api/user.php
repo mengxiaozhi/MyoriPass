@@ -20,6 +20,7 @@
     date_default_timezone_set("Asia/Taipei");
     
     $userid = $user['email'];
+    $useruid = $user['uid'];
 
     $useremail = hash('sha256', $user['email']);
     $username = hash('sha256', $user['name']);
@@ -32,7 +33,7 @@
 
     $hashdata = hash('sha256', $tophash . "苗栗國萬歲!");
 
-    $qrContent = "https://pass.myori.org/?id=" . $userid . $hashdata; // Combine content
+    $qrContent =  $useruid . $hashdata; // Combine content
 
     // 用戶名遮罩
     $nameLength = mb_strlen($user['name'], 'UTF-8'); // 获取用户名长度（考虑多字节字符）

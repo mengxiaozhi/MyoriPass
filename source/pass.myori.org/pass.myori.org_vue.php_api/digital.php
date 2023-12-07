@@ -6,6 +6,13 @@ $pdo = new PDO(
     dbname=' . $config['dbname'] . ';
     charset=utf8',$config['username'],$config['password']
 );
+function generateRandomUid() {
+    $uid = '';
+    for ($i = 0; $i < 16; $i++) {
+        $uid .= mt_rand(0, 9); // 生成随机数字
+    }
+    return $uid;
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -23,6 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $emailCheckStmt->execute([$email]);
     $emailExists = $emailCheckStmt->fetchColumn();
 
+    $uids = [];
+    for ($j = 0; $j < 52; $j++) {
+        $uids[] = generateRandomUid();
+    }
+
     if ($emailExists) {
         $response = array(
             "success" => true,
@@ -30,8 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
         echo json_encode($response);
     } else {
-        $insertStmt = $pdo->prepare('INSERT INTO user (email, name, countries, id, password) VALUES (?, ?, ?, ?, ?)');
-        if ($insertStmt->execute([$email, $name, $countries, $userId, $hashedPassword])) {
+        $insertStmt = $pdo->prepare('INSERT INTO user (uid, email, name, countries, id, password) VALUES (?, ?, ?, ?, ?, ?)');
+        if ($insertStmt->execute([$uids[0], $email, $name, $countries, $id, $hashedPassword])) {
             $response = array(
                 "success" => true,
                 "message" => "註冊成功! "

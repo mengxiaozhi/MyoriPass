@@ -77,7 +77,7 @@ export default {
                         // }
 
                          // 使用 Axios 發送 POST 請求
-                        axios.post('/api/reader.php', { scannedText })
+                        axios.post('/api/reader.php', { qrdata: scannedText })
                         .then(response => {
                         // 處理後端返回的資料
                         console.log('後端返回的資料', response.data);
