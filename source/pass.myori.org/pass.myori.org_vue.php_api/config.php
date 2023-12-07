@@ -12,3 +12,4 @@ header('Access-Control-Allow-Origin:*');
 header('Access-Control-Allow-Headers: X-Requested-With,X_Requested_With,X-PINGOTHER,Content-Type'); 
 header('Access-Control-Allow-Methods:POST,GET,OPTIONS'); 
 header('Access-Control-Allow-Credentials: true');
+ini_set("display_errors", "On");

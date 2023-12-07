@@ -68,7 +68,7 @@
                 $recordCode = generateRandomCode(); // 生成随机编号
                 $insertStmt = $pdo->prepare("INSERT INTO record (uid, email, record_code, timedate, authorize_uid) VALUES (:uid, :email, :record_code, :timedate, :authorize_uid)");
                 $insertStmt->bindParam(':uid', $uid, PDO::PARAM_STR);
-                $insertStmt->bindParam(':email', $useremail, PDO::PARAM_STR);
+                $insertStmt->bindParam(':email', $user['email'], PDO::PARAM_STR);
                 $insertStmt->bindParam(':record_code', $recordCode, PDO::PARAM_STR);
                 $insertStmt->bindParam(':timedate', $timedate, PDO::PARAM_STR);
                 $insertStmt->bindParam(':authorize_uid', $authorize['uid'], PDO::PARAM_STR);
