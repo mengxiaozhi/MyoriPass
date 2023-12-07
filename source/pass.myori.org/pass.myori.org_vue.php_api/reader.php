@@ -45,7 +45,7 @@
             $username = hash('sha256', $user['name']);
             $usercountries = hash('sha256', $user['countries']);
             $currentDateTime = hash('sha256', date("Ymd") . date("hi"));
-            $timedate = date("Ymd") . date("hi");
+            $timedate = date("Ymd") . date("his");
 
             $hashblock1 = hash('sha256', $useremail . $username);
             $hashblock2 = hash('sha256', $usercountries . $currentDateTime);
