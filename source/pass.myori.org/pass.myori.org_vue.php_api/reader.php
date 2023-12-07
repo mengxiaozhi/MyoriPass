@@ -3,15 +3,16 @@
 
     session_start();
     $authorize = $_SESSION['user'];  // 将用户信息存入会话
-        // 生成随机编号的函数
-        function generateRandomCode($length = 6) {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $Record_Code = '';
-            for ($i = 0; $i < $length; $i++) {
-                $Record_Code .= $characters[rand(0, strlen($characters) - 1)];
-            }
-            return $Record_Code;
+
+    // 生成随机编号的函数
+    function generateRandomCode($length = 6) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $Record_Code = '';
+        for ($i = 0; $i < $length; $i++) {
+            $Record_Code .= $characters[rand(0, strlen($characters) - 1)];
         }
+        return $Record_Code;
+    }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $qrdata = $_POST['qrdata'];
@@ -39,13 +40,13 @@
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
-            $useruid = $user['uid'];
             // 找到用户，对相关信息进行哈希处理
+            $useruid = $user['uid'];
             $useremail = hash('sha256', $user['email']);
             $username = hash('sha256', $user['name']);
             $usercountries = hash('sha256', $user['countries']);
-            $currentDateTime = hash('sha256', date("Ymd") . date("hi"));
-            $timedate = date("Ymd") . date("his");
+            $currentDateTime = hash('sha256', date("Ymd") . date("His"));
+            $timedate = date("YmdHis");
 
             $hashblock1 = hash('sha256', $useremail . $username);
             $hashblock2 = hash('sha256', $usercountries . $currentDateTime);
@@ -53,7 +54,6 @@
 
             $hashdata = hash('sha256', $tophash . "苗栗國萬歲!");
             $qrContent =  $useruid . $hashdata; // Combine content
-
 
             // 用户名遮罩逻辑
             $nameLength = mb_strlen($user['name'], 'UTF-8');
@@ -63,41 +63,63 @@
                 $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . str_repeat('◯', $nameLength - 2) . mb_substr($user['name'], -1, 1, 'UTF-8');
             }
 
-            if ($qrdata === $qrContent) {
-                // 将数据插入到 record 表中
-                $recordCode = generateRandomCode(); // 生成随机编号
-                $insertStmt = $pdo->prepare("INSERT INTO record (uid, email, record_code, timedate, authorize_uid) VALUES (:uid, :email, :record_code, :timedate, :authorize_uid)");
-                $insertStmt->bindParam(':uid', $uid, PDO::PARAM_STR);
-                $insertStmt->bindParam(':email', $user['email'], PDO::PARAM_STR);
-                $insertStmt->bindParam(':record_code', $recordCode, PDO::PARAM_STR);
-                $insertStmt->bindParam(':timedate', $timedate, PDO::PARAM_STR);
-                $insertStmt->bindParam(':authorize_uid', $authorize['uid'], PDO::PARAM_STR);
-                $insertStmt->execute();
-                
-            // 准备响应
-            $response = array(
-                "success" => true,
-                "message" => "授權成功",
-                "email" => $useremail,
-                "countries" => $user['countries'],
-                "displayedName" => $displayedName,
-            );
+            // 仅当uid与授权用户的uid不同才继续进行授权逻辑
+            if ($user['uid'] !== $authorize['uid']) {
+                if ($qrdata === $qrContent) {
+                    // 将数据插入到 record 表中
+                    $recordCode = generateRandomCode(); // 生成随机编号
+                    $insertStmt = $pdo->prepare("INSERT INTO record (uid, email, record_code, timedate, authorize_uid) VALUES (:uid, :email, :record_code, :timedate, :authorize_uid)");
+                    $insertStmt->bindParam(':uid', $uid, PDO::PARAM_STR);
+                    $insertStmt->bindParam(':email', $user['email'], PDO::PARAM_STR);
+                    $insertStmt->bindParam(':record_code', $recordCode, PDO::PARAM_STR);
+                    $insertStmt->bindParam(':timedate', $timedate, PDO::PARAM_STR);
+                    $insertStmt->bindParam(':authorize_uid', $authorize['uid'], PDO::PARAM_STR);
+                    $insertStmt->execute();
+                    
+                    // 准备响应
+                    $response = array(
+                        "success" => true,
+                        "message" => "授權成功",
+                        "email" => $useremail,
+                        "countries" => $user['countries'],
+                        "displayedName" => $displayedName,
+                    );
 
-            echo json_encode($response);
+                    echo json_encode($response);
+                } else {
+                    // QR数据不匹配
+                    $response = array(
+                        "success" => false,
+                        "message" => "QR数据不匹配",
+                    );
+
+                    echo json_encode($response);
+                }
+            } else {
+                // 不能授权给自己
+                $response = array(
+                    "success" => false,
+                    "message" => "不能授权给自己",
+                );
+
+                echo json_encode($response);
+            }
         } else {
             // 未找到用户
             $response = array(
                 "success" => false,
-                "message" => "未授權成功",
+                "message" => "未找到用户",
             );
 
             echo json_encode($response);
         }
+    } else {
+        // 请求方法不是POST
+        $response = array(
+            "success" => false,
+            "message" => "非法请求",
+        );
+        
+        echo json_encode($response);
     }
-}else{
-    $response = array(
-        "success" => false,
-        "message" => "未授權成功",
-    );
-}
 ?>

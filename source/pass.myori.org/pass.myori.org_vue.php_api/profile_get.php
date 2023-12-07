@@ -8,7 +8,7 @@ $response = array(
     "success" => true,
     "email" => $user['email'],
     "name" => $user['name'],
-    "countries" => $user['cpuntries'],
+    "countries" => $user['countries'],
     "id" => $user['id']
 );
 echo json_encode($response);
