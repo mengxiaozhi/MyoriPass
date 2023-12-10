@@ -15,7 +15,7 @@ export default {
     const router = useRouter();
 
     // 倒數計時器
-    const countdown = ref(15);
+    const countdown = ref(30);
 
     // Function to fetch user data
     const fetchUserData = () => {
@@ -29,7 +29,7 @@ export default {
             userStore.setStatus(1);
 
             // 重置倒數計時器
-            countdown.value = 15;
+            countdown.value = 30;
           } else {
             router.push('/');
           }
@@ -40,7 +40,7 @@ export default {
         });
     };
 
-    // Function to fetch user data every 15 seconds
+    // Function to fetch user data every 30 seconds
     const refreshUserData = () => {
       fetchUserData();
     };
@@ -57,8 +57,8 @@ export default {
     onMounted(() => {
       fetchUserData();
 
-      // Refresh user data every 15 seconds
-      setInterval(refreshUserData, 15000);
+      // Refresh user data every 30 seconds
+      setInterval(refreshUserData, 30000);
 
       // Update countdown every second
       setInterval(() => {
