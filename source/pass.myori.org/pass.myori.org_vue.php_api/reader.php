@@ -80,8 +80,8 @@
                     $response = array(
                         "success" => true,
                         "message" => "授權成功",
-                        "email" => $useremail,
-                        "countries" => $user['countries'],
+                        "time" => $timedate,
+                        "recordCode" => $recordCode,
                         "displayedName" => $displayedName,
                     );
 

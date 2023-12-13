@@ -13,7 +13,15 @@
                 <div class="angle"></div>
             </div>
         </div>
-
+    </div>
+    <div class="info_notify" v-if="authorize === '授權成功'">
+        <h1>{{ time }}</h1>
+        <h5>被授權人：{{ displayedName }}</h5>
+        <h5>授權成功</h5>
+        <p>授權編號：{{ recordCode }}</p>
+    </div>
+    <div v-else>
+        <h1>授權失敗</h1>
     </div>
 </template>
 
@@ -24,11 +32,24 @@ import 'webrtc-adapter'
 import { BrowserMultiFormatReader } from '@zxing/library'
 export default {
     name: 'scanCodePage',
-    data() {
-        return {
-            codeReader: null
-        }
-    },
+    setup() {
+    const authorize = ref('');
+    const time = ref('');
+    const displayedName = ref('');
+    const recordCode = ref('');
+
+    return {
+        authorize,
+        time,
+        displayedName,
+        recordCode,
+    };
+},
+data() {
+    return {
+        codeReader: null,
+    };
+},
     mounted() {
         this.codeReader = new BrowserMultiFormatReader()
         this.openScan()
@@ -83,6 +104,10 @@ export default {
                         axios.post('/api/reader.php', formData)
                             .then(response => {
                                 console.log('後端返回的資料', response.data);
+                                this.authorize = response.data.message;
+                                this.time = response.data.time;
+                                this.displayedName = response.data.displayedName;
+                                this.recordCode = response.data.recordCode;
                             })
                             .catch(error => {
                                 console.error('POST 請求失敗', error);
@@ -244,4 +269,12 @@ export default {
     100% {
         height: 100%;
     }
-}</style>
+}
+
+.info_notify{
+    z-index: 99;
+    background-color: #ffffff;
+    height: 100%;
+    width: 100%;
+}
+</style>
