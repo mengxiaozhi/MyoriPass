@@ -20,8 +20,9 @@
         <h5>授權成功</h5>
         <p>授權編號：{{ recordCode }}</p>
     </div>
-    <div v-else>
+    <div class="info_notify" v-else>
         <h1>授權失敗</h1>
+        <h5>原因：{{ authorize }}</h5>
     </div>
 </template>
 
@@ -37,6 +38,11 @@ export default {
     const time = ref('');
     const displayedName = ref('');
     const recordCode = ref('');
+
+    watch(authorize, () => {
+        // 在 authorize 变化时进行重新渲染
+        this.$forceUpdate();
+    });
 
     return {
         authorize,

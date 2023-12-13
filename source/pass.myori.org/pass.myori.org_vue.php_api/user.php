@@ -25,7 +25,7 @@
     $useremail = hash('sha256', $user['email']);
     $username = hash('sha256', $user['name']);
     $usercountries = hash('sha256',$user['countries']);
-    $currentDateTime = hash('sha256',date("Ymd") . date("His")); // Format the date and time
+    $currentDateTime = hash('sha256',date("Ymd") . date("hi")); // Format the date and time
 
     $hashblock1 = hash('sha256', $useremail . $username );
     $hashblock2 = hash('sha256',$usercountries . $currentDateTime);

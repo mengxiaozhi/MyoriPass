@@ -46,7 +46,7 @@
             $useremail = hash('sha256', $user['email']);
             $username = hash('sha256', $user['name']);
             $usercountries = hash('sha256', $user['countries']);
-            $currentDateTime = hash('sha256', date("Ymd") . date("His"));
+            $currentDateTime = hash('sha256', date("Ymd") . date("hi"));
             
             $timedate = date("YmdHis");
 
@@ -81,7 +81,7 @@
                     // 准备响应
                     $response = array(
                         "success" => true,
-                        "message" => "授權成功",
+                        "message" => '授權成功',
                         "time" => $timedate,
                         "recordCode" => $recordCode,
                         "displayedName" => $displayedName,
@@ -92,7 +92,7 @@
                     // QR数据不匹配
                     $response = array(
                         "success" => false,
-                        "message" => "QR数据不匹配",
+                        "message" => 'QR数据不匹配',
                     );
 
                     echo json_encode($response);
@@ -101,7 +101,7 @@
                 // 不能授权给自己
                 $response = array(
                     "success" => false,
-                    "message" => "不能授权给自己",
+                    "message" => '不能授权给自己',
                 );
 
                 echo json_encode($response);
@@ -110,7 +110,7 @@
             // 未找到用户
             $response = array(
                 "success" => false,
-                "message" => "未找到用户",
+                "message" => '未找到用户',
             );
 
             echo json_encode($response);
@@ -119,7 +119,7 @@
         // 请求方法不是POST
         $response = array(
             "success" => false,
-            "message" => "非法请求",
+            "message" => '非法请求',
         );
         
         echo json_encode($response);
