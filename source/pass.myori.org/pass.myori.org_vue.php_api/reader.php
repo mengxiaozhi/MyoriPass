@@ -42,10 +42,12 @@
         if ($user) {
             // 找到用户，对相关信息进行哈希处理
             $useruid = $user['uid'];
+
             $useremail = hash('sha256', $user['email']);
             $username = hash('sha256', $user['name']);
             $usercountries = hash('sha256', $user['countries']);
             $currentDateTime = hash('sha256', date("Ymd") . date("His"));
+            
             $timedate = date("YmdHis");
 
             $hashblock1 = hash('sha256', $useremail . $username);
