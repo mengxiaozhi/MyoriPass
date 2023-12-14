@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="info_notify" v-if="authorize === '授權成功'">
+    <div class="info_notify" v-if="authorize == '授權成功'">
         <h1>{{ time }}</h1>
         <h5>被授權人：{{ displayedName }}</h5>
         <h5>授權成功</h5>
@@ -38,11 +38,6 @@ export default {
     const time = ref('');
     const displayedName = ref('');
     const recordCode = ref('');
-
-    watch(authorize, () => {
-        // 在 authorize 变化时进行重新渲染
-        this.$forceUpdate();
-    });
 
     return {
         authorize,
@@ -114,6 +109,7 @@ data() {
                                 this.time = response.data.time;
                                 this.displayedName = response.data.displayedName;
                                 this.recordCode = response.data.recordCode;
+                                console.log(authorize.value);
                             })
                             .catch(error => {
                                 console.error('POST 請求失敗', error);
@@ -278,7 +274,8 @@ data() {
 }
 
 .info_notify{
-    z-index: 99;
+    position: relative;
+    z-index: -100;
     background-color: #ffffff;
     height: 100%;
     width: 100%;
