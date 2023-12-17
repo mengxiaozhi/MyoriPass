@@ -1,5 +1,6 @@
 <template>
     <div class="page-scan">
+
         <!-- 扫码区域 -->
         <div class="QrCode">
             <video ref="video" height="100%" width="100%" id="video" autoplay></video>
@@ -14,13 +15,14 @@
             </div>
         </div>
     </div>
-    <div class="info_notify" v-if="authorize == '授權成功'">
+    <div class="info_notify" v-if="authorize === '授權成功'">
         <h1>{{ time }}</h1>
         <h5>被授權人：{{ displayedName }}</h5>
         <h5>授權成功</h5>
         <p>授權編號：{{ recordCode }}</p>
     </div>
-    <div class="info_notify" v-else>
+    <div class="info_notify"
+        v-else-if="authorize === 'QR数据不匹配' || authorize === '不能授权给自己' || authorize === '未找到用户' || authorize === '非法请求'">
         <h1>授權失敗</h1>
         <h5>原因：{{ authorize }}</h5>
     </div>
@@ -31,29 +33,31 @@ import axios from 'axios';
 // WebRTC适配器 只需要引入就ok
 import 'webrtc-adapter'
 import { BrowserMultiFormatReader } from '@zxing/library'
+import { ref } from 'vue'
 export default {
     name: 'scanCodePage',
     setup() {
-    const authorize = ref('');
-    const time = ref('');
-    const displayedName = ref('');
-    const recordCode = ref('');
+        const authorize = ref('');
+        const time = ref('');
+        const displayedName = ref('');
+        const recordCode = ref('');
 
-    return {
-        authorize,
-        time,
-        displayedName,
-        recordCode,
-    };
-},
-data() {
-    return {
-        codeReader: null,
-    };
-},
+        return {
+            authorize,
+            time,
+            displayedName,
+            recordCode,
+        };
+    },
+    data() {
+        return {
+            codeReader: null,
+        };
+    },
     mounted() {
         this.codeReader = new BrowserMultiFormatReader()
         this.openScan()
+
     },
     beforeUnmount() {
         this.codeReader && this.codeReader.reset()
@@ -102,17 +106,24 @@ data() {
                         const formData = new FormData();
                         formData.append('qrdata', scannedText);
 
-                        axios.post('/api/reader.php', formData)
+                        axios.post('/api/reader.php', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
                             .then(response => {
                                 console.log('後端返回的資料', response.data);
                                 this.authorize = response.data.message;
+                                console.log('authorize:', this.authorize);
                                 this.time = response.data.time;
                                 this.displayedName = response.data.displayedName;
                                 this.recordCode = response.data.recordCode;
-                                console.log(authorize.value);
+
                             })
+
                             .catch(error => {
                                 console.error('POST 請求失敗', error);
+                                console.log(this.authorize);
                             });
 
                     }
@@ -273,11 +284,19 @@ data() {
     }
 }
 
-.info_notify{
-    position: relative;
-    z-index: -100;
+.info_notify {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background-color: #ffffff;
-    height: 100%;
-    width: 100%;
+    width: 600px;
+    height: 300px;
+    z-index: 999;
 }
-</style>
+</style> 
