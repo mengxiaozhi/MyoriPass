@@ -16,15 +16,25 @@
         </div>
     </div>
     <div class="info_notify" v-if="authorize === '授權成功'">
-        <h1>{{ time }}</h1>
+        <h1>授權時間：{{ time }}</h1>
         <h5>被授權人：{{ displayedName }}</h5>
         <h5>授權成功</h5>
         <p>授權編號：{{ recordCode }}</p>
+        <div class="button">
+            <RouterLink to="/">
+                <button class="btn btn-default" id="login"><h3>回到前一頁</h3></button>
+            </RouterLink>
+        </div>
     </div>
     <div class="info_notify"
         v-else-if="authorize === 'QR数据不匹配' || authorize === '不能授权给自己' || authorize === '未找到用户' || authorize === '非法请求'">
         <h1>授權失敗</h1>
         <h5>原因：{{ authorize }}</h5>
+        <div class="button">
+            <RouterLink to="/">
+                <button class="btn btn-default" id="login"><h3>回到前一頁</h3></button>
+            </RouterLink>
+        </div>
     </div>
 </template>
 
