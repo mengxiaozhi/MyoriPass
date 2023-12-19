@@ -12,7 +12,7 @@ header('Content-Disposition: attachment; filename="user_data.csv"');
 $output = fopen('php://output', 'w');
 
 // 将CSV标题行写入文件
-fputcsv($output, ['Email', '姓名', '國籍', '證件號碼', '出入國記錄']);
+fputcsv($output, ['Email', '姓名', '國籍', '證件號碼']);
 
 // 将用户数据写入CSV
 fputcsv($output, [$user['email'], $user['name'], $user['countries'], $user['id']]);
