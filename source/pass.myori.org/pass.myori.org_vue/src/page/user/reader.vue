@@ -114,6 +114,9 @@ export default {
                     if (result) {
                         const scannedText = result.text; //result為全部json objact
                         console.log('扫描结果', scannedText)
+                         // 停止掃描
+                        this.scanning = false;
+                        this.codeReader && this.codeReader.reset();
 
                         // console.log('扫描结果', result)
                         // if (result.text) {
@@ -137,7 +140,6 @@ export default {
                                 this.displayedName = response.data.displayedName;
                                 this.recordCode = response.data.recordCode;
                                 this.authorize_user = response.data.authorize_user;
-
                             })
 
                             .catch(error => {

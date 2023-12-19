@@ -13,6 +13,7 @@ export default {
     const displayedName = ref('');
     const greeting = ref('');
     const router = useRouter();
+    const records = ref([]); // 新增 records 變數來存儲授權紀錄
 
     // 倒數計時器
     const countdown = ref(30);
@@ -40,6 +41,16 @@ export default {
         });
     };
 
+    const fetchAuthorizeRecords = () => {
+      axios.get('/api/get_authorize.php')
+        .then(response => {
+          records.value = response.data.records; // 將授權紀錄存入 records
+        })
+        .catch(error => {
+          console.error('獲取授權紀錄時出錯', error);
+        });
+    };
+
     // Function to fetch user data every 30 seconds
     const refreshUserData = () => {
       fetchUserData();
@@ -56,6 +67,7 @@ export default {
     // Call fetchUserData on component mount
     onMounted(() => {
       fetchUserData();
+      fetchAuthorizeRecords();
 
       // Refresh user data every 30 seconds
       setInterval(refreshUserData, 30000);
@@ -72,7 +84,8 @@ export default {
       displayedName,
       greeting,
       qrCodeImageUrl,
-      countdown
+      countdown,
+      records
     };
   },
 };
@@ -93,7 +106,15 @@ export default {
     </div>
     <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
     <h3 class="title-section">身分授權紀錄</h3>
-    <div class="a_list">
+    <div v-if="records && records.length > 0" class="a_list">
+      <div v-for="record in records" :key="record.record_code" class="record_item">
+        <p>授權編號：{{ record.record_code }}</p>
+        <p>授權時間：{{ record.timedate }}</p>
+        <p>授權人：{{ record.user_name }}</p>
+        <p>被授權人：{{ record.authorize_name }}</p>
+      </div>
+    </div>
+    <div v-else class="a_list">
       <h4 style="display: flex; justify-content: center;">無授權/出入國紀錄</h4>
     </div>
   </div>
@@ -106,5 +127,8 @@ export default {
   background-color: #4144501c;
   border-radius: 11px;
   padding: 10px;
+}
+.record_item{
+  border-bottom: 1.5px solid #41445040;
 }
 </style>

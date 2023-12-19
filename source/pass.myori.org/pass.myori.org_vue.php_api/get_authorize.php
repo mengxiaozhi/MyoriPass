@@ -20,11 +20,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             die('数据库连接失败：' . $e->getMessage());
         }
 
-       // 在数据库中查询用户信息以获取基于 uid 的数据，并通过 JOIN 操作获取对应的用户姓名
+       // 在数据库中查询用户信息以获取基于 uid 的数据，并通过 JOIN 操作获取对应的用户姓名和授权人姓名
         $stmt = $pdo->prepare("
-        SELECT r.uid, r.email, r.record_code, r.timedate, r.authorize_uid, u.name
+        SELECT 
+        r.uid AS uid,
+        r.email AS email,
+        r.record_code AS record_code,
+        r.timedate AS timedate,
+        r.authorize_uid AS authorize_uid,
+        u.name AS user_name,
+        au.name AS authorize_name
         FROM record r
         LEFT JOIN user u ON r.uid = u.uid
+        LEFT JOIN user au ON r.authorize_uid = au.uid
         WHERE r.uid = :uid OR r.authorize_uid = :uid
         ");
         $stmt->bindParam(':uid', $uid, PDO::PARAM_STR);
