@@ -21,24 +21,24 @@
         <h2></h2>
         <h2>
             被授權人：{{ displayedName }} <br>
-            授權人：{{ authorize_user }}
+            要授權人：{{ authorize_user }}
         </h2>
         <p>授權編號：{{ recordCode }}</p>
         <p>授權時間：{{ time }}</p>
         <div class="button">
             <RouterLink to="/user">
-                <button class="btn btn-default" id="login"><h3>回到前一頁</h3></button>
+                <button class="btn btn-default" id="login"><h3>完成</h3></button>
             </RouterLink>
         </div>
     </div>
-    <div class="info_notify"
+    <div class="animate__animated animate__zoomIn info_notify"
         v-else-if="authorize === 'QR数据不匹配' || authorize === '不能授权给自己' || authorize === '未找到用户' || authorize === '非法请求'">
         <img src="/icn_nopass.png" alt="NoPass">
         <h1>授權失敗</h1>
         <h5>原因：{{ authorize }}</h5>
         <div class="button">
             <RouterLink to="/user">
-                <button class="btn btn-default" id="login"><h3>回到前一頁</h3></button>
+                <button class="btn btn-default" id="login"><h3>完成</h3></button>
             </RouterLink>
         </div>
     </div>

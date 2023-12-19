@@ -62,7 +62,7 @@
             $nameLength = mb_strlen($user['name'], 'UTF-8');
 
             // 检查用户名中是否包含“政府”两字，如果包含，则不采取遮罩
-            if (mb_strpos($user['name'], '政府', 0, 'UTF-8') === false) {
+            if (mb_strpos($user['name'], '苗栗國', 0, 'UTF-8') === false) {
                 if ($nameLength === 2) {
                     $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . '◯';
                 } else {

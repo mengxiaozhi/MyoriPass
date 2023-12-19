@@ -44,7 +44,10 @@ export default {
     const fetchAuthorizeRecords = () => {
       axios.get('/api/get_authorize.php')
         .then(response => {
-          records.value = response.data.records; // 將授權紀錄存入 records
+          // 将授权记录按时间由大到小排序
+          records.value = response.data.records.sort((a, b) => { // 將授權紀錄存入 records
+            return new Date(b.timedate) - new Date(a.timedate); // 将时间字符串转换为时间戳，然后比较
+          });
         })
         .catch(error => {
           console.error('獲取授權紀錄時出錯', error);
@@ -54,6 +57,7 @@ export default {
     // Function to fetch user data every 30 seconds
     const refreshUserData = () => {
       fetchUserData();
+      fetchAuthorizeRecords();
     };
 
     // qrcode
@@ -110,7 +114,7 @@ export default {
       <div v-for="record in records" :key="record.record_code" class="record_item">
         <p>授權編號：{{ record.record_code }}</p>
         <p>授權時間：{{ record.timedate }}</p>
-        <p>授權人：{{ record.user_name }}</p>
+        <p>要授權人：{{ record.user_name }}</p>
         <p>被授權人：{{ record.authorize_name }}</p>
       </div>
     </div>
