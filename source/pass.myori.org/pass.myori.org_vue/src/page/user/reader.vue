@@ -136,6 +136,7 @@ export default {
                                 this.time = response.data.time;
                                 this.displayedName = response.data.displayedName;
                                 this.recordCode = response.data.recordCode;
+                                this.authorize_user = response.data.authorize_user;
 
                             })
 

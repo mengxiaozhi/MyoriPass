@@ -90,7 +90,7 @@
                     $response = array(
                         "success" => true,
                         "message" => '授權成功',
-                        "authorize_user" => '$authorize_user',
+                        "authorize_user" => $authorize_user,
                         "time" => $timedate,
                         "recordCode" => $recordCode,
                         "displayedName" => $displayedName,
