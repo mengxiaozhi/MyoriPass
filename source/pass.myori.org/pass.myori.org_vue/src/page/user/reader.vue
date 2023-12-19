@@ -15,23 +15,29 @@
             </div>
         </div>
     </div>
-    <div class="info_notify" v-if="authorize === '授權成功'">
-        <h1>授權時間：{{ time }}</h1>
-        <h5>被授權人：{{ displayedName }}</h5>
-        <h5>授權成功</h5>
+    <div class="info_notify animate__animated animate__zoomIn" v-if="authorize === '授權成功'">
+        <img src="/icn_pass.png" alt="Pass">
+        <h1>授權成功</h1>
+        <h2></h2>
+        <h2>
+            被授權人：{{ displayedName }} <br>
+            授權人：{{ authorize_user }}
+        </h2>
         <p>授權編號：{{ recordCode }}</p>
+        <p>授權時間：{{ time }}</p>
         <div class="button">
-            <RouterLink to="/">
+            <RouterLink to="/user">
                 <button class="btn btn-default" id="login"><h3>回到前一頁</h3></button>
             </RouterLink>
         </div>
     </div>
     <div class="info_notify"
         v-else-if="authorize === 'QR数据不匹配' || authorize === '不能授权给自己' || authorize === '未找到用户' || authorize === '非法请求'">
+        <img src="/icn_nopass.png" alt="NoPass">
         <h1>授權失敗</h1>
         <h5>原因：{{ authorize }}</h5>
         <div class="button">
-            <RouterLink to="/">
+            <RouterLink to="/user">
                 <button class="btn btn-default" id="login"><h3>回到前一頁</h3></button>
             </RouterLink>
         </div>
@@ -48,12 +54,14 @@ export default {
     name: 'scanCodePage',
     setup() {
         const authorize = ref('');
+        const authorize_user = ref('');
         const time = ref('');
         const displayedName = ref('');
         const recordCode = ref('');
 
         return {
             authorize,
+            authorize_user,
             time,
             displayedName,
             recordCode,
@@ -154,7 +162,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+img{
+    padding-bottom: 10px;
+}
+p{
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
 .page-scan {
     margin: -50px;
 }

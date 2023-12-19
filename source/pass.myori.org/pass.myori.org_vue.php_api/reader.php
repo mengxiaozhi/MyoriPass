@@ -3,6 +3,7 @@
 
     session_start();
     $authorize = $_SESSION['user'];  // 将用户信息存入会话
+    $authorize_user = $authorize['name'];
 
     // 生成随机编号的函数
     function generateRandomCode($length = 6) {
@@ -59,10 +60,17 @@
 
             // 用户名遮罩逻辑
             $nameLength = mb_strlen($user['name'], 'UTF-8');
-            if ($nameLength === 2) {
-                $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . '◯';
+
+            // 检查用户名中是否包含“政府”两字，如果包含，则不采取遮罩
+            if (mb_strpos($user['name'], '政府', 0, 'UTF-8') === false) {
+                if ($nameLength === 2) {
+                    $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . '◯';
+                } else {
+                    $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . str_repeat('◯', $nameLength - 2) . mb_substr($user['name'], -1, 1, 'UTF-8');
+                }
             } else {
-                $displayedName = mb_substr($user['name'], 0, 1, 'UTF-8') . str_repeat('◯', $nameLength - 2) . mb_substr($user['name'], -1, 1, 'UTF-8');
+                // 如果用户名中包含“政府”两字，则不进行遮罩处理
+                $displayedName = $user['name'];
             }
 
             // 仅当uid与授权用户的uid不同才继续进行授权逻辑
@@ -82,6 +90,7 @@
                     $response = array(
                         "success" => true,
                         "message" => '授權成功',
+                        "authorize_user" => '$authorize_user',
                         "time" => $timedate,
                         "recordCode" => $recordCode,
                         "displayedName" => $displayedName,
