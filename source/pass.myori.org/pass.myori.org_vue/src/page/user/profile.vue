@@ -66,7 +66,7 @@ const deleteAccount = async () => {
             alert(response.data.message)
             userStore.clearUser();
             userStore.setStatus(0);
-            router.push('/');
+            router.push('/main/');
         } else {
             alert(response.data.message)
         }

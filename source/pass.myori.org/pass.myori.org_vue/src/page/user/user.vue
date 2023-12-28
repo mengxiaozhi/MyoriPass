@@ -32,7 +32,7 @@ export default {
             // 重置倒數計時器
             countdown.value = 30;
           } else {
-            router.push('/');
+            router.push('/main/');
           }
         })
         .catch(error => {

@@ -26,7 +26,7 @@
         <p>授權編號：{{ recordCode }}</p>
         <p>授權時間：{{ time }}</p>
         <div class="button">
-            <RouterLink to="/user">
+            <RouterLink to="/main/user">
                 <button class="btn btn-default" id="login"><h3>完成</h3></button>
             </RouterLink>
         </div>
@@ -37,7 +37,7 @@
         <h1>授權失敗</h1>
         <h5>原因：{{ authorize }}</h5>
         <div class="button">
-            <RouterLink to="/user">
+            <RouterLink to="/main/user">
                 <button class="btn btn-default" id="login"><h3>完成</h3></button>
             </RouterLink>
         </div>

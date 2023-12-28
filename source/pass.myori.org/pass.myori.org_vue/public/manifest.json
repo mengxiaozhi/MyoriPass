@@ -1,7 +1,7 @@
 {
   "name": "MyoriPass 苗栗通",
   "short_name": "MyoriPass",
-  "start_url": ".",
+  "start_url": "/main/",
   "display": "standalone",
   "description": "苗栗國數位政府服務",
   "theme_color": "#0017c1",

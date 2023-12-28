@@ -5,6 +5,6 @@
   "server": {
     "androidScheme": "https",
     "hostname": "pass.myori.org",
-    "url":"https://pass.myori.org"
+    "url":"https://pass.myori.org/main"
   }
 }

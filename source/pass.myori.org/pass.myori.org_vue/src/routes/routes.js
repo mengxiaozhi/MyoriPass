@@ -2,18 +2,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 import axios from 'axios';
 import { useUserStore } from '@/store/userStore';
 const routes = [
-  { name: '首頁', path: '/', component: () => import('../page/home.vue') },
-  { name: '使用規約', path: '/terms', component: () => import('../page/terms.vue') },
-  { name: '個人隱私權條款', path: '/privacy', component: () => import('../page/privacy.vue') },
-  { name: '登入', path: '/user/login', component: () => import('../page/user/login.vue') },
-  { name: '註冊', path: '/user/register', component: () => import('../page/user/register.vue') },
-  { name: '註冊數位公民', path: '/user/digital', component: () => import('../page/user/digital.vue') },
-  { name: '用戶首頁', path: '/user', component: () => import('../page/user/user.vue') },
-  { name: '用戶管理', path: '/user/profile', component: () => import('../page/user/profile.vue') },
-  { name: '更改密碼', path: '/user/password', component: () => import('../page/user/password.vue') },
-  { name: '主動授權', path: '/user/reader', component: () => import('../page/user/reader.vue') },
-  { name: 'NotFound', path: '/404', component: () => import('../page/404.vue') },
-  { path: '/:pathMatch(.*)*', redirect: '/404' } 
+  { name: '首頁', path: '/main', component: () => import('../page/home.vue') },
+  { name: '使用規約', path: '/main/terms', component: () => import('../page/terms.vue') },
+  { name: '個人隱私權條款', path: '/main/privacy', component: () => import('../page/privacy.vue') },
+  { name: '登入', path: '/main/login', component: () => import('../page/user/login.vue') },
+  { name: '註冊', path: '/main/register', component: () => import('../page/user/register.vue') },
+  { name: '註冊數位公民', path: '/main/digital', component: () => import('../page/user/digital.vue') },
+  { name: '用戶首頁', path: '/main/user', component: () => import('../page/user/user.vue') },
+  { name: '用戶管理', path: '/main/profile', component: () => import('../page/user/profile.vue') },
+  { name: '更改密碼', path: '/main/password', component: () => import('../page/user/password.vue') },
+  { name: '主動授權', path: '/main/reader', component: () => import('../page/user/reader.vue') },
+  { name: 'NotFound', path: '/main/404', component: () => import('../page/404.vue') },
+  { path: '/:pathMatch(.*)*', redirect: '/main/404' } 
 ]
 
 const router = createRouter({

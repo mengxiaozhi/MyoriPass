@@ -195,7 +195,7 @@
 
 <p dir="ltr"><strong>數位省依據法令及數位省制定之&nbsp;</strong></p>
 
-<p dir="ltr"><strong><a href="https://pass.myori.org/privacy">隱私權條款&nbsp;</a></strong></p>
+<p dir="ltr"><strong><a href="https://pass.myori.org/main/privacy">隱私權條款&nbsp;</a></strong></p>
 
 <p dir="ltr"><strong>處置使用者的個人資料及代理輸入者輸入的個人資料。</strong></p>
 

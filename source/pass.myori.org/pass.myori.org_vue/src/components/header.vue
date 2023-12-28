@@ -32,7 +32,7 @@ const toggleMenu = () => {
 
 // 點擊標題跳轉
 const handleTitleClick = () => {
-    router.push(status.value === 1 ? '/user' : '/');
+    router.push(status.value === 1 ? '/main/user' : '/main');
 };
 
 // 用戶登出
@@ -43,7 +43,7 @@ const logoutUser = async () => {
             userStore.clearUser();
             userStore.setStatus(0);
             menuVisible.value = false;
-            router.push('/');
+            router.push('/main/');
         } else {
             throw new Error('登出失敗');
         }
@@ -67,12 +67,12 @@ const logoutUser = async () => {
             </div>
         </button>
             <button  v-if="status === 0" class="menu-btn">
-                <a href="https://pass-view.myori.org/" target="_blank">
+                <a href="https://pass.myori.org/" target="_blank">
                     <img src="/icn_help.svg" alt="Help" style="height: 27px; width: 27px;">
                 </a>
             </button>
             <button v-if="status === 1" class="menu-btn">
-                <RouterLink to="/user/reader">
+                <RouterLink to="/main/reader">
                     <img src="/icn_reader.svg" alt="QR-Code_Reader" style="height: 27px; width: 27px;">
                 </RouterLink>
             </button>
@@ -96,12 +96,12 @@ const logoutUser = async () => {
                     </div>
                     <ul>
                         <li @click="toggleMenu">
-                            <RouterLink to="/user/profile">
+                            <RouterLink to="/main/profile">
                                 <p>賬戶資料管理</p>
                             </RouterLink>
                         </li>
                         <li @click="toggleMenu">
-                            <RouterLink to="/user/password">
+                            <RouterLink to="/main/password">
                                 <p>更改登入密碼</p>
                             </RouterLink>
 
@@ -119,12 +119,12 @@ const logoutUser = async () => {
                 </div>
                 <ul>
                     <li @click="toggleMenu">
-                        <RouterLink to="/terms">
+                        <RouterLink to="/main/terms">
                             <p>使用規約</p>
                         </RouterLink>
                     </li>
                     <li @click="toggleMenu">
-                        <RouterLink to="/privacy">
+                        <RouterLink to="/main/privacy">
                             <p>個人隱私權條款</p>
                         </RouterLink>
                     </li>

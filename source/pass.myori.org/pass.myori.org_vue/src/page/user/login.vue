@@ -32,7 +32,7 @@ export default {
                     userStore.setStatus(1); // 更新登入狀態1
 
                     // 導航到用戶頁面
-                    router.push('/user');
+                    router.push('/main/user');
                 } else {
                     alert('登入失敗，請檢查用戶名和密碼。');
                 }

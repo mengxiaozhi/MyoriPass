@@ -162,7 +162,7 @@ export default {
             </div>
         </form>
         <div class="register">
-            <RouterLink to="digital">
+            <RouterLink to="/main/digital">
                 <button class="btn btn-default">
                     <h3>註冊成爲數位公民</h3>
                 </button>
