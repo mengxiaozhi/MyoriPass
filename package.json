@@ -1,29 +1,27 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
+  "name": "pass.myori.org_vue",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
-  },
-  "hexo": {
-    "version": "6.3.0"
+    "dev": "vite",
+    "build": "vite build --base=/main/",
+    "preview": "vite preview"
   },
   "dependencies": {
+    "@zxing/library": "^0.20.0",
     "animate.css": "^4.1.1",
-    "hexo": "^6.3.0",
-    "hexo-abbrlink": "^2.2.1",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-index": "^3.0.0",
-    "hexo-generator-sitemap": "^3.0.1",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^6.0.0",
-    "hexo-renderer-stylus": "^2.1.0",
-    "hexo-server": "^3.0.0",
-    "hexo-theme-landscape": "^0.0.3"
+    "axios": "^1.5.1",
+    "fontawesome-free": "^1.0.4",
+    "pinia": "^2.0.0-rc.10",
+    "vue": "^3.3.4",
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.2.5",
+    "webrtc-adapter": "^8.2.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.0",
+    "vite": "^5.0.2",
+    "vite-plugin-mkcert": "^1.17.1"
   }
 }
