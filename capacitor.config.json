@@ -1,0 +1,10 @@
+{
+  "appId": "com.myori.pass",
+  "appName": "MyoriPass",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "hostname": "pass.myori.org",
+    "url":"https://pass.myori.org/main"
+  }
+}
