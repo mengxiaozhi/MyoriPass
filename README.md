@@ -7,14 +7,15 @@
 
 ## 構建
 ```bash
-git clone https://github.com/mengxiaozhi/MyoriPass.git
-cd /pass.myroi.org/pass.myori.org_vue
+cd pass.myori.org_vue
 npm install  
 npm run build #構建
 ```
-把構建出來的Dist資料夾丟到服務器<br>
-/pass.myroi.org/pass.myori.org_vue.php_api<br>
-這個路徑下的所有東西則丟到Dist根目錄的 /Api 資料夾下。
+把構建出來的Dist資料夾丟到服務器的 /main/ 下面，主程序默認路徑為/main，可以更改vite構建指令改為根目錄<br>
+/pass.myori.org_php<br>
+這個路徑下的所有東西則丟到服務器的的 /Api/ 資料夾下，所有的API接口都在這裡。
+/pass.myori.org_hexo<br>
+這個路徑下的所有東西則丟到根目錄的下，是介紹首頁兼Blog。
 
 ## 貢獻
 萌小志Mengxiaozhi<br>
@@ -30,4 +31,4 @@ Angelo0218<br>
 ## 其他
 本專案有安卓版本之代碼，採用Capacitor構建。<br>
 
-**最後更新：** 2023年12月07日
+**最後更新：** 2023年12月30日
