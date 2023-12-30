@@ -7,16 +7,23 @@
 PS.很多東西可能看起來奇奇怪怪的，沒錯，不要懷疑
 
 ## 構建
+##### 前端
 ```bash
 cd pass.myori.org_vue
 npm install  
 npm run build #構建
 ```
 把構建出來的Dist資料夾丟到服務器的 /main/ 下面，主程序默認路徑為/main，可以更改vite構建指令改為根目錄<br>
+##### 後端
 /pass.myori.org_php<br>
 這個路徑下的所有東西則丟到服務器的的 /Api/ 資料夾下，所有的API接口都在這裡。
-/pass.myori.org_hexo<br>
-這個路徑下的所有東西則丟到根目錄的下，是介紹首頁兼Blog。
+##### 介紹頁面/Blog
+```bash
+cd pass.myori.org_hexo
+npm install  
+hexo g #構建
+```
+把構建出來的Public資料夾丟到根目錄的下，是介紹首頁兼Blog。
 
 ## 貢獻
 萌小志Mengxiaozhi<br>
