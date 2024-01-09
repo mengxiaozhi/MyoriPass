@@ -27,7 +27,7 @@
         <p>授權時間：{{ time }}</p>
         <div class="button">
             <RouterLink to="/main/user">
-                <button class="btn btn-default" id="login"><h3>完成</h3></button>
+                <button class="btn btn-default" id="login"><h3>&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;</h3></button>
             </RouterLink>
         </div>
     </div>
@@ -38,7 +38,7 @@
         <h5>原因：{{ authorize }}</h5>
         <div class="button">
             <RouterLink to="/main/user">
-                <button class="btn btn-default" id="login"><h3>完成</h3></button>
+                <button class="btn btn-default" id="login"><h3>&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;</h3></button>
             </RouterLink>
         </div>
     </div>
