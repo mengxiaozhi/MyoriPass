@@ -52,7 +52,7 @@ export default {
         <div style="display: flex; justify-content: center;">
             <p>
             使用前請閲讀
-            <RouterLink to="/main/terms">使用規約</RouterLink> 及 <RouterLink to="privacy">個人隱私權條款</RouterLink>
+            <RouterLink to="/main/terms">使用規約</RouterLink> 及 <RouterLink to="/main/privacy">個人隱私權條款</RouterLink>
             </p>
         </div>
 </template>

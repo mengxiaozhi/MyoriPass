@@ -15,8 +15,8 @@
             </div>
         </div>
     </div>
-    <div class="info_notify animate__animated animate__zoomIn" v-if="authorize === '授權成功'">
-        <img src="/icn_pass.png" alt="Pass">
+    <div class="info_notify animate__animated animate__fadeIn" v-if="authorize === '授權成功'">
+        <img src="/icn_pass.png" width="250" alt="Pass">
         <h1>授權成功</h1>
         <h2></h2>
         <h2>
@@ -31,9 +31,9 @@
             </RouterLink>
         </div>
     </div>
-    <div class="animate__animated animate__zoomIn info_notify"
+    <div class="animate__animated animate__fadeIn info_notify"
         v-else-if="authorize === 'QR数据不匹配' || authorize === '不能授权给自己' || authorize === '未找到用户' || authorize === '非法请求'">
-        <img src="/icn_nopass.png" alt="NoPass">
+        <img src="/icn_nopass.png" width="250" alt="NoPass">
         <h1>授權失敗</h1>
         <h5>原因：{{ authorize }}</h5>
         <div class="button">
