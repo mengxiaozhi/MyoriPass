@@ -10,17 +10,17 @@ export default defineConfig({
     vue(),
     // mkcert()
   ],
-  //server: {
+  server: {
     //host: '0.0.0.0',
     //https: true,
-    //proxy: {
-      // '/api': {
-      //   target: 'https://pass.myori.org/api',
-      //   changeOrigin: true,
-      //   rewrite: (path) => path.replace(/^\/api/, ''),
-      // },
-    //},
-  //},
+    proxy: {
+       '/api': {
+         target: 'https://pass.myori.org/api',
+         changeOrigin: true,
+         rewrite: (path) => path.replace(/^\/api/, ''),
+       },
+    },
+  },
   resolve: {
     alias: {
       // 设置 '@' 指向 'src' 目录
