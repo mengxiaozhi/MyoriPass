@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import info from '@/assets/info.json';
 import axios from 'axios';
 import 'animate.css';
+import Hammer from 'hammerjs';
 
 const router = useRouter();
 // 用戶狀態管理
@@ -51,6 +52,21 @@ const logoutUser = async () => {
         console.error('登出過程中出錯:', error);
     }
 };
+
+//hammerjs初始化，側邊欄手勢
+onMounted(() => {
+    // 初始化 Hammer 实例
+    const mc = new Hammer(document.body);
+
+    // 检测滑动手势
+    mc.on('swiperight', () => {
+        menuVisible.value = true; // 向右滑动时显示侧边栏
+    });
+
+    mc.on('swipeleft', () => {
+        menuVisible.value = false; // 向左滑动时隐藏侧边栏
+    });
+});
 </script>
 
 
