@@ -7,6 +7,10 @@
         </div>
         <!-- 扫码样式一 -->
         <div class="Qr_scanner">
+            <div class="qr_title">
+                <h1>個人識別碼 QR-ID讀取</h1>
+                <p>使用支援MyoriPass格式之QR-ID進行資料授權，例如出入境、電子報稅、身分識別等。</p>
+            </div>
             <div class="box">
                 <div class="line_row">
                     <div class="line"></div>
@@ -199,19 +203,19 @@ p{
     z-index: 1;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: linear-gradient(rgba(0, 0, 0,1), rgba(0, 0, 0,0.6),rgba(0, 0, 0, 0.37));
+    padding-top:75px;
 }
 
 .Qr_scanner .box {
-    width: 75vw;
-    height: 75vw;
-    max-height: 75vh;
-    max-width: 75vh;
+    width: 57vw;
+    height: 57vw;
+    max-height: 57vh;
+    max-width: 57vh;
     position: relative;
     left: 50%;
-    top: 50%;
+    top: 35%;
     transform: translate(-50%, -50%);
-    border: 1px solid #c4c4c4;
 
     .line_row {
         width: 100%;
@@ -256,16 +260,41 @@ p{
     filter: blur(4px);
 }
 
-.Qr_scanner .box:after,
-.Qr_scanner .box:before,
-.Qr_scanner .angle:after,
+.Qr_scanner .box:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 63px;
+    height: 63px;
+    border: 0.3rem solid transparent;
+    border-top-right-radius:10px
+}
+.Qr_scanner .box:before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 63px;
+    height: 63px;
+    border: 0.3rem solid transparent;
+    border-top-left-radius:10px
+}
+.Qr_scanner .angle:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 63px;
+    height: 63px;
+    border: 0.3rem solid transparent;
+    border-bottom-right-radius:10px
+}
 .Qr_scanner .angle:before {
     content: '';
     display: block;
     position: absolute;
-    width: 78px;
-    height: 78px;
+    width: 63px;
+    height: 63px;
     border: 0.3rem solid transparent;
+    border-bottom-left-radius:10px
 }
 
 .Qr_scanner .box:after,
@@ -327,5 +356,15 @@ p{
     width: 100%;
     height: 100%;
     z-index: 998;
+    padding-top: 100px;
+}
+.qr_title{
+    color:#f4f5f8;
+    padding-top:37px;
+    padding-left:50px;
+    padding-right:50px
+}
+.qr_title h1{
+    padding-bottom:10px;
 }
 </style> 
