@@ -63,7 +63,7 @@ export default {
     // qrcode
     const qrCodeImageUrl = computed(() => {
       if (qrCodeUrl.value) {
-        return `https://chart.apis.google.com/chart?chs=300x300&cht=qr&chl=${encodeURIComponent(qrCodeUrl.value)}`;
+        return `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrCodeUrl.value)}&size=225x225`;
       }
       return '';
     });
@@ -105,7 +105,7 @@ export default {
     <div style="display:flex;justify-content:center;">
       <img :src="qrCodeImageUrl" alt="QR-ID">
     </div>
-    <div style="display:flex;justify-content:center;margin-top:-50px;">
+    <div style="display:flex;justify-content:center;margin-top:-10px;">
         <p style="color: rgb(255, 255, 255); background-color: rgb(0, 23, 193); min-width: 225px; height: 27px; display: flex; justify-content: center;">{{ countdown }} 秒後刷新</p>
     </div>
     <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
