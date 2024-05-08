@@ -8,7 +8,7 @@
         <!-- 扫码样式一 -->
         <div class="Qr_scanner">
             <div class="qr_title">
-                <h1>個人識別碼 QR-ID讀取</h1>
+                <h1>QR-ID讀取</h1>
                 <p>使用支援MyoriPass格式之QR-ID進行資料授權，例如出入境、電子報稅、身分識別等。</p>
             </div>
             <div class="box">
