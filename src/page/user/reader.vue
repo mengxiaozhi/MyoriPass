@@ -208,8 +208,8 @@ p{
 }
 
 .Qr_scanner .box {
-    width: 57vw;
-    height: 57vw;
+    width: 72vw;
+    height: 72vw;
     max-height: 57vh;
     max-width: 57vh;
     position: relative;
@@ -361,8 +361,8 @@ p{
 .qr_title{
     color:#f4f5f8;
     padding-top:37px;
-    padding-left:50px;
-    padding-right:50px
+    padding-left:37px;
+    padding-right:37px
 }
 .qr_title h1{
     padding-bottom:10px;
