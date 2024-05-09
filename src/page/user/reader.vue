@@ -214,13 +214,13 @@ p{
     max-width: 57vh;
     position: relative;
     left: 50%;
-    top: 35%;
+    top: 30%;
     transform: translate(-50%, -50%);
 
     .line_row {
         width: 100%;
         overflow: hidden;
-        background-image: linear-gradient(0deg,
+        /*background-image: linear-gradient(0deg,
                 transparent 24%,
                 rgba(136, 176, 255, 0.1) 25%,
                 rgba(136, 176, 255, 0.1) 26%,
@@ -239,7 +239,7 @@ p{
                 rgba(136, 176, 255, 0.1) 75%,
                 rgba(136, 176, 255, 0.1) 76%,
                 transparent 77%,
-                transparent);
+                transparent);*/
         background-size: 3rem 3rem;
         background-position: -1rem -1rem;
         animation: Heightchange 2s infinite;

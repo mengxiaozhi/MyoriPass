@@ -12,6 +12,7 @@ const routes = [
   { name: '用戶管理', path: '/main/profile', component: () => import('../page/user/profile.vue') },
   { name: '更改密碼', path: '/main/password', component: () => import('../page/user/password.vue') },
   { name: '主動授權', path: '/main/reader', component: () => import('../page/user/reader.vue') },
+  { name: '授權列表', path: '/main/list', component: () => import('../page/user/list.vue') },
   { name: 'NotFound', path: '/main/404', component: () => import('../page/404.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/main/404' } 
 ]

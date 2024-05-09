@@ -73,9 +73,6 @@ export default {
       fetchUserData();
       fetchAuthorizeRecords();
 
-      // Refresh user data every 30 seconds
-      setInterval(refreshUserData, 30000);
-
       // Update countdown every second
       setInterval(() => {
         countdown.value = Math.max(countdown.value - 1, 0);
@@ -96,18 +93,31 @@ export default {
 </script>
 
 <template>
-  <div>
     <h1>
-      {{ displayedName }} ， {{ greeting }}<br>
-      歡迎回來
+      身分授權紀錄
     </h1>
-    <h3 class="title-section">個人識別碼 QR-ID</h3>
-    <div style="display:flex;justify-content:center;">
-      <img :src="qrCodeImageUrl" alt="QR-ID">
+    <div v-if="records && records.length > 0" class="a_list">
+      <div v-for="record in records" :key="record.record_code" class="record_item">
+        <p>授權編號：{{ record.record_code }}</p>
+        <p>授權時間：{{ record.timedate }}</p>
+        <p>要授權人：{{ record.user_name }}</p>
+        <p>被授權人：{{ record.authorize_name }}</p>
+      </div>
     </div>
-    <div style="display:flex;justify-content:center;margin-top:-10px;">
-        <p style="color: rgb(255, 255, 255); background-color: rgb(0, 23, 193); min-width: 225px; height: 27px; display: flex; justify-content: center;">{{ countdown }} 秒後刷新</p>
+    <div v-else class="a_list">
+      <h4 style="display: flex; justify-content: center;">無授權/出入國紀錄</h4>
     </div>
-    <p style="display:flex;justify-content:center;">國籍：{{ countries }}</p>
-  </div>
 </template>
+
+<style>
+.a_list{
+  min-height: 117px;
+  border: 1.5px solid #41445040;
+  background-color: #4144501c;
+  border-radius: 11px;
+  padding: 10px;
+}
+.record_item{
+  border-bottom: 1.5px solid #41445040;
+}
+</style>
