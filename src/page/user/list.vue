@@ -93,9 +93,14 @@ export default {
 </script>
 
 <template>
+  <div class="decoration">
     <h1>
       身分授權紀錄
     </h1>
+    <p>
+    本列表包含了所有的授權紀錄，例如出入境、電子報稅、身分識別等。
+    </p>
+  </div>
     <div v-if="records && records.length > 0" class="a_list">
       <div v-for="record in records" :key="record.record_code" class="record_item">
         <p>授權編號：{{ record.record_code }}</p>
@@ -109,7 +114,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style scoped>
 .a_list{
   min-height: 117px;
   border: 1.5px solid #41445040;
@@ -119,5 +124,15 @@ export default {
 }
 .record_item{
   border-bottom: 1.5px solid #41445040;
+}
+.decoration p{
+  padding-bottom:30px;
+}
+.decoration p{
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+.decoration h1{
+  padding-bottom:10px;
 }
 </style>
