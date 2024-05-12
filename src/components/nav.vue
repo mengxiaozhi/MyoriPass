@@ -1,5 +1,5 @@
 <template>
-<div class="fixed bottom-0 left-0 right-0 z-50 flex h-16 w-full items-center justify-around bg-white shadow-[0_-2px_4px_rgba(0,0,0,0.05)] dark:bg-gray-900 dark:shadow-[0_-2px_4px_rgba(0,0,0,0.1)]">
+<div class="fixed bottom-0 left-0 right-0 z-50 flex h-16 w-full items-center justify-around bg-white shadow-[0_-2px_4px_rgba(0,0,0,0.05)]">
   <RouterLink to="/main/user" class="flex flex-col items-center justify-center gap-y-0.5">
     <div class="gap-1 pr-5 pl-5 pb-1 pt-1 rounded-full" :class="{ 'text-blue-600 bg-blue-100': $route.path === '/main/user'}">
       <svg
