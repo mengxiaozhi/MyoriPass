@@ -51,7 +51,7 @@
         <path d="M15 18h-5"></path>
         <path d="M10 6h8v4h-8V6Z"></path>
       </svg>
-      <p class="text-center">電子戶籍謄本<br>（暫未開放）</p>
+      <p class="text-center">出入境證明書<br>（暫未開放）</p>
     </div>
   </div>
   <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full" data-v0-t="card">
