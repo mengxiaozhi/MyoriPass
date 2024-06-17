@@ -97,9 +97,9 @@ export default {
 
 <template>
   <div>
-    <h1>
+    <h1 class="animate__animated animate__fadeInUp">
       {{ displayedName }} ， {{ greeting }}<br>
-      歡迎回來
+      <span class="animate__animated animate__fadeInUp animate__delay-1s">歡迎回來</span>
     </h1>
     <h3 class="title-section">個人識別碼 QR-ID</h3>
     <div style="display:flex;justify-content:center;">
