@@ -1,54 +1,54 @@
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useUserStore } from '@/store/userStore';
-import { useRouter } from 'vue-router';
+    import { ref } from 'vue';
+    import axios from 'axios';
+    import { useUserStore } from '@/store/userStore';
+    import { useRouter } from 'vue-router';
 
-export default {
-    setup() {
-        // 使用 ref 創建響應式引用
-        const username = ref('');
-        const password = ref('');
-        const remember = ref(false);
+    export default {
+        setup() {
+            // 使用 ref 創建響應式引用
+            const username = ref('');
+            const password = ref('');
+            const remember = ref(false);
 
-        const router = useRouter();
-        const userStore = useUserStore();
+            const router = useRouter();
+            const userStore = useUserStore();
 
-        // 登錄方法
-        const login = async () => {
-            // 使用 FormData 
-            const data = new FormData();
-            data.append('username', username.value);
-            data.append('password', password.value);
-            data.append('remember', remember.value ? '1' : '0');
+            // 登錄方法
+            const login = async () => {
+                // 使用 FormData 
+                const data = new FormData();
+                data.append('username', username.value);
+                data.append('password', password.value);
+                data.append('remember', remember.value ? '1' : '0');
 
-            try {
-                const response = await axios.post('/api/login.php', data, {
-                    withCredentials: true 
-                });
-                console.log(response.data);
+                try {
+                    const response = await axios.post('/api/login.php', data, {
+                        withCredentials: true
+                    });
+                    console.log(response.data);
 
-                if (response.data.status === 1) {
-                    userStore.setStatus(1); // 更新登入狀態1
+                    if (response.data.status === 1) {
+                        userStore.setStatus(1); // 更新登入狀態1
 
-                    // 導航到用戶頁面
-                    router.push('/main/user');
-                } else {
-                    alert('登入失敗，請檢查用戶名和密碼。');
+                        // 導航到用戶頁面
+                        router.push('/main/user');
+                    } else {
+                        alert('登入失敗，請檢查用戶名和密碼。');
+                    }
+                } catch (error) {
+                    console.error('登錄過程中出錯:', error);
                 }
-            } catch (error) {
-                console.error('登錄過程中出錯:', error);
-            }
-        };
+            };
 
-        return {
-            username,
-            password,
-            remember,
-            login
-        };
-    }
-};
+            return {
+                username,
+                password,
+                remember,
+                login
+            };
+        }
+    };
 </script>
 
 

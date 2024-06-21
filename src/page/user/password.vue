@@ -1,50 +1,50 @@
 <script>
-import axios from 'axios';
-import { ref } from 'vue';
+    import axios from 'axios';
+    import { ref } from 'vue';
 
-export default {
-    setup() {
+    export default {
+        setup() {
 
-        const form = ref({
-            old_password: '',
-            new_password: '',
-            confirmPassword: '',
-        });
+            const form = ref({
+                old_password: '',
+                new_password: '',
+                confirmPassword: '',
+            });
 
-        const handleSubmit = async () => {
-            if (form.value.new_password !== form.value.confirmPassword) {
-                alert('新密碼和確認密碼不匹配!');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('old_password', form.value.old_password);
-            formData.append('new_password', form.value.new_password);
-
-            try {
-                const response = await axios.post('/api/change_password.php', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-
-                if (response.data.success) {
-                    alert('密碼修改成功!');
-                } else {
-                    alert('錯誤: ' + response.data.message);
+            const handleSubmit = async () => {
+                if (form.value.new_password !== form.value.confirmPassword) {
+                    alert('新密碼和確認密碼不匹配!');
+                    return;
                 }
-            } catch (error) {
-                console.error('更改密碼發生錯誤', error);
-                alert('更新密碼時出現錯誤');
-            }
-        };
 
-        return {
-            form,
-            handleSubmit
-        };
+                const formData = new FormData();
+                formData.append('old_password', form.value.old_password);
+                formData.append('new_password', form.value.new_password);
+
+                try {
+                    const response = await axios.post('/api/change_password.php', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+
+                    if (response.data.success) {
+                        alert('密碼修改成功!');
+                    } else {
+                        alert('錯誤: ' + response.data.message);
+                    }
+                } catch (error) {
+                    console.error('更改密碼發生錯誤', error);
+                    alert('更新密碼時出現錯誤');
+                }
+            };
+
+            return {
+                form,
+                handleSubmit
+            };
+        }
     }
-}
 </script>
 
 
@@ -82,4 +82,3 @@ export default {
         </form>
     </div>
 </template>
-

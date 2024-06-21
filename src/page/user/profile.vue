@@ -1,95 +1,95 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
-import { useUserStore } from '@/store/userStore';
+    import { ref, onMounted } from 'vue';
+    import axios from 'axios';
+    import { useRouter } from 'vue-router';
+    import { useUserStore } from '@/store/userStore';
 
-const email = ref('');
-const name = ref('');
-const selectedCountry = ref('');
-const id = ref('');
-const countries = ref([]);
-const isDeleteWindowVisible = ref(false);
-const password = ref('')
-// 用戶狀態管理
-const userStore = useUserStore();
-const router = useRouter();
+    const email = ref('');
+    const name = ref('');
+    const selectedCountry = ref('');
+    const id = ref('');
+    const countries = ref([]);
+    const isDeleteWindowVisible = ref(false);
+    const password = ref('')
+    // 用戶狀態管理
+    const userStore = useUserStore();
+    const router = useRouter();
 
 
-// 載入用戶原本資料
-const loadData = async () => {
-    try {
-        const response = await axios.get('/api/profile_get.php');
-        if (response.data.success) {
-            email.value = response.data.email;
-            name.value = response.data.name;
-            selectedCountry.value = response.data.countries;
-            id.value = response.data.id;
+    // 載入用戶原本資料
+    const loadData = async () => {
+        try {
+            const response = await axios.get('/api/profile_get.php');
+            if (response.data.success) {
+                email.value = response.data.email;
+                name.value = response.data.name;
+                selectedCountry.value = response.data.countries;
+                id.value = response.data.id;
 
-        } else {
-            console.error('無法取得profile');
+            } else {
+                console.error('無法取得profile');
 
+            }
+        } catch (error) {
+
+            console.error('Error loading profile:', error);
         }
-    } catch (error) {
-
-        console.error('Error loading profile:', error);
-    }
-};
-// 提交修改
-const submitForm = async () => {
-    const formData = new URLSearchParams();
-    formData.append('email', email.value);
-    formData.append('name', name.value);
-    formData.append('countries', selectedCountry.value);
-    formData.append('id', id.value);
-    try {
-        const response = await axios.post('/api/profile_change.php', formData);
-        alert(response.data.message);
-    } catch (error) {
-        console.error('提交錯誤', error);
-    }
-};
-// 刪除資料顯示
-const toggleDeleteWindow = () => {
-    isDeleteWindowVisible.value = !isDeleteWindowVisible.value;
-};
-
-const deleteAccount = async () => {
-    try {
+    };
+    // 提交修改
+    const submitForm = async () => {
         const formData = new URLSearchParams();
-        formData.append('username', email.value);
-        formData.append('password', password.value);
-
-        const response = await axios.post('/api/delete.php', formData);
-
-        if (response.data.success == true) {
-            alert(response.data.message)
-            userStore.clearUser();
-            userStore.setStatus(0);
-            router.push('/main/');
-        } else {
-            alert(response.data.message)
+        formData.append('email', email.value);
+        formData.append('name', name.value);
+        formData.append('countries', selectedCountry.value);
+        formData.append('id', id.value);
+        try {
+            const response = await axios.post('/api/profile_change.php', formData);
+            alert(response.data.message);
+        } catch (error) {
+            console.error('提交錯誤', error);
         }
-    } catch (error) {
-        console.error('帳號刪除發生錯誤', error)
-    }
-};
-// 載入國家列表並設置默認值
-onMounted(async () => {
-    await loadData(); // 先加載用戶數據
+    };
+    // 刪除資料顯示
+    const toggleDeleteWindow = () => {
+        isDeleteWindowVisible.value = !isDeleteWindowVisible.value;
+    };
 
-    try {
-        const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
-        countries.value = response.data;
+    const deleteAccount = async () => {
+        try {
+            const formData = new URLSearchParams();
+            formData.append('username', email.value);
+            formData.append('password', password.value);
 
-        // 如果從用戶資料中獲得了國家資訊，那麼設置它，否則設置為列表中的第一個國家
-        if (!selectedCountry.value && countries.value.length > 0) {
-            selectedCountry.value = countries.value[0].code; // 這裡假設 code 是國家代碼
+            const response = await axios.post('/api/delete.php', formData);
+
+            if (response.data.success == true) {
+                alert(response.data.message)
+                userStore.clearUser();
+                userStore.setStatus(0);
+                router.push('/main/');
+            } else {
+                alert(response.data.message)
+            }
+        } catch (error) {
+            console.error('帳號刪除發生錯誤', error)
         }
-    } catch (error) {
-        console.error('Error loading countries:', error);
-    }
-});
+    };
+    // 載入國家列表並設置默認值
+    onMounted(async () => {
+        await loadData(); // 先加載用戶數據
+
+        try {
+            const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
+            countries.value = response.data;
+
+            // 如果從用戶資料中獲得了國家資訊，那麼設置它，否則設置為列表中的第一個國家
+            if (!selectedCountry.value && countries.value.length > 0) {
+                selectedCountry.value = countries.value[0].code; // 這裡假設 code 是國家代碼
+            }
+        } catch (error) {
+            console.error('Error loading countries:', error);
+        }
+    });
 
 </script>
 <template>
@@ -129,8 +129,8 @@ onMounted(async () => {
                 <input type="text" v-model="id" name="id" placeholder="MyNumber編號/護照號碼" pattern=".{5,}$" maxlength="9"
                     disabled="disabled" onkeyup="this.value=this.value.replace(/\s+/g,\'\')">
             </div>
-            <input v-else type="text" v-model="id" name="id" placeholder="MyNumber編號/護照號碼" pattern=".{5,}$" maxlength="9"
-                onkeyup="this.value=this.value.replace(/\s+/g,\'\')">
+            <input v-else type="text" v-model="id" name="id" placeholder="MyNumber編號/護照號碼" pattern=".{5,}$"
+                maxlength="9" onkeyup="this.value=this.value.replace(/\s+/g,\'\')">
         </div>
         <div>
             <button type="submit" class="btn btn-default icn_button" id="login">
@@ -175,4 +175,3 @@ onMounted(async () => {
         </div>
     </div>
 </template>
-

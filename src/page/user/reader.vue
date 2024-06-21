@@ -31,7 +31,9 @@
         <p>授權時間：{{ time }}</p>
         <div class="button">
             <RouterLink to="/main/user">
-                <button class="btn btn-default" id="login"><h3>&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;</h3></button>
+                <button class="btn btn-default" id="login">
+                    <h3>&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;</h3>
+                </button>
             </RouterLink>
         </div>
     </div>
@@ -42,185 +44,189 @@
         <h5>原因：{{ authorize }}</h5>
         <div class="button">
             <RouterLink to="/main/user">
-                <button class="btn btn-default" id="login"><h3>&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;</h3></button>
+                <button class="btn btn-default" id="login">
+                    <h3>&nbsp;&nbsp;完&nbsp;&nbsp;成&nbsp;&nbsp;</h3>
+                </button>
             </RouterLink>
         </div>
     </div>
 </template>
 
 <script>
-import axios from 'axios';
-// WebRTC适配器 只需要引入就ok
-import 'webrtc-adapter'
-import { BrowserMultiFormatReader } from '@zxing/library'
-import { ref } from 'vue'
-export default {
-    name: 'scanCodePage',
-    setup() {
-        const authorize = ref('');
-        const authorize_user = ref('');
-        const time = ref('');
-        const displayedName = ref('');
-        const recordCode = ref('');
+    import axios from 'axios';
+    // WebRTC适配器 只需要引入就ok
+    import 'webrtc-adapter'
+    import { BrowserMultiFormatReader } from '@zxing/library'
+    import { ref } from 'vue'
+    export default {
+        name: 'scanCodePage',
+        setup() {
+            const authorize = ref('');
+            const authorize_user = ref('');
+            const time = ref('');
+            const displayedName = ref('');
+            const recordCode = ref('');
 
-        return {
-            authorize,
-            authorize_user,
-            time,
-            displayedName,
-            recordCode,
-        };
-    },
-    data() {
-        return {
-            codeReader: null,
-        };
-    },
-    mounted() {
-        this.codeReader = new BrowserMultiFormatReader()
-        this.openScan()
+            return {
+                authorize,
+                authorize_user,
+                time,
+                displayedName,
+                recordCode,
+            };
+        },
+        data() {
+            return {
+                codeReader: null,
+            };
+        },
+        mounted() {
+            this.codeReader = new BrowserMultiFormatReader()
+            this.openScan()
 
-    },
-    beforeUnmount() {
-        this.codeReader && this.codeReader.reset()
-    },
-    methods: {
-        async openScan() {
-            this.codeReader
-                .listVideoInputDevices()
-                .then((videoInputDevices) => {
-                    // 默认获取第一个摄像头设备id
-                    let firstDeviceId = videoInputDevices[0].deviceId
-                    // 获取第一个摄像头设备的名称
-                    const videoInputDeviceslablestr = JSON.stringify(
-                        videoInputDevices[0].label
-                    )
-                    if (videoInputDevices.length > 1) {
-                        // 判断是否后置摄像头
-                        if (videoInputDeviceslablestr.indexOf('back') > -1) {
-                            firstDeviceId = videoInputDevices[0].deviceId
-                        } else {
-                            firstDeviceId = videoInputDevices[1].deviceId
+        },
+        beforeUnmount() {
+            this.codeReader && this.codeReader.reset()
+        },
+        methods: {
+            async openScan() {
+                this.codeReader
+                    .listVideoInputDevices()
+                    .then((videoInputDevices) => {
+                        // 默认获取第一个摄像头设备id
+                        let firstDeviceId = videoInputDevices[0].deviceId
+                        // 获取第一个摄像头设备的名称
+                        const videoInputDeviceslablestr = JSON.stringify(
+                            videoInputDevices[0].label
+                        )
+                        if (videoInputDevices.length > 1) {
+                            // 判断是否后置摄像头
+                            if (videoInputDeviceslablestr.indexOf('back') > -1) {
+                                firstDeviceId = videoInputDevices[0].deviceId
+                            } else {
+                                firstDeviceId = videoInputDevices[1].deviceId
+                            }
+                        }
+                        this.codeReader && this.codeReader.reset() // 重置
+                        this.decodeFromInputVideoFunc(firstDeviceId)
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    })
+            },
+            decodeFromInputVideoFunc(firstDeviceId) {
+                this.codeReader.decodeFromInputVideoDeviceContinuously(
+                    firstDeviceId,
+                    'video',
+                    (result, err) => {
+                        if (result) {
+                            const scannedText = result.text; //result為全部json objact
+                            console.log('扫描结果', scannedText)
+                            // 停止掃描
+                            this.scanning = false;
+                            this.codeReader && this.codeReader.reset();
+
+                            // console.log('扫描结果', result)
+                            // if (result.text) {
+                            //     this.clickIndexLeft(result.text)
+                            // }
+
+                            // 使用 Axios 發送 POST 請求
+                            const formData = new FormData();
+                            formData.append('qrdata', scannedText);
+
+                            axios.post('/api/reader.php', formData, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
+                                .then(response => {
+                                    console.log('後端返回的資料', response.data);
+                                    this.authorize = response.data.message;
+                                    console.log('authorize:', this.authorize);
+                                    this.time = response.data.time;
+                                    this.displayedName = response.data.displayedName;
+                                    this.recordCode = response.data.recordCode;
+                                    this.authorize_user = response.data.authorize_user;
+                                })
+
+                                .catch(error => {
+                                    console.error('POST 請求失敗', error);
+                                    console.log(this.authorize);
+                                });
+
+                        }
+                        if (err && !err) {
+                            console.error(err)
                         }
                     }
-                    this.codeReader && this.codeReader.reset() // 重置
-                    this.decodeFromInputVideoFunc(firstDeviceId)
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
-        },
-        decodeFromInputVideoFunc(firstDeviceId) {
-            this.codeReader.decodeFromInputVideoDeviceContinuously(
-                firstDeviceId,
-                'video',
-                (result, err) => {
-                    if (result) {
-                        const scannedText = result.text; //result為全部json objact
-                        console.log('扫描结果', scannedText)
-                         // 停止掃描
-                        this.scanning = false;
-                        this.codeReader && this.codeReader.reset();
-
-                        // console.log('扫描结果', result)
-                        // if (result.text) {
-                        //     this.clickIndexLeft(result.text)
-                        // }
-
-                        // 使用 Axios 發送 POST 請求
-                        const formData = new FormData();
-                        formData.append('qrdata', scannedText);
-
-                        axios.post('/api/reader.php', formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        })
-                            .then(response => {
-                                console.log('後端返回的資料', response.data);
-                                this.authorize = response.data.message;
-                                console.log('authorize:', this.authorize);
-                                this.time = response.data.time;
-                                this.displayedName = response.data.displayedName;
-                                this.recordCode = response.data.recordCode;
-                                this.authorize_user = response.data.authorize_user;
-                            })
-
-                            .catch(error => {
-                                console.error('POST 請求失敗', error);
-                                console.log(this.authorize);
-                            });
-
-                    }
-                    if (err && !err) {
-                        console.error(err)
-                    }
-                }
-            )
-        },
-        // 停止扫描，并返回上一页
-        clickIndexLeft(result) {
-            this.codeReader && this.codeReader.reset()
-            this.codeReader = null
-            // this.$route.params.result = result
-            // this.$router.back()
+                )
+            },
+            // 停止扫描，并返回上一页
+            clickIndexLeft(result) {
+                this.codeReader && this.codeReader.reset()
+                this.codeReader = null
+                // this.$route.params.result = result
+                // this.$router.back()
+            }
         }
     }
-}
 </script>
 
 <style scoped>
-img{
-    padding-bottom: 10px;
-}
-p{
-    margin-block-start: 0;
-    margin-block-end: 0;
-}
-.page-scan {
-    margin: -50px;
-}
+    img {
+        padding-bottom: 10px;
+    }
 
-.QrCode {
-    /* width: 100vw; */
-    height: 100vh;
-    position: relative;
-    z-index: 1;
+    p {
+        margin-block-start: 0;
+        margin-block-end: 0;
+    }
 
-    #video {
+    .page-scan {
+        margin: -50px;
+    }
+
+    .QrCode {
+        /* width: 100vw; */
+        height: 100vh;
+        position: relative;
+        z-index: 1;
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .Qr_scanner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.37));
+        padding-top: 75px;
     }
-}
 
-.Qr_scanner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(0, 0, 0,1), rgba(0, 0, 0,0.6),rgba(0, 0, 0, 0.37));
-    padding-top:75px;
-}
+    .Qr_scanner .box {
+        width: 72vw;
+        height: 72vw;
+        max-height: 57vh;
+        max-width: 57vh;
+        position: relative;
+        left: 50%;
+        top: 30%;
+        transform: translate(-50%, -50%);
 
-.Qr_scanner .box {
-    width: 72vw;
-    height: 72vw;
-    max-height: 57vh;
-    max-width: 57vh;
-    position: relative;
-    left: 50%;
-    top: 30%;
-    transform: translate(-50%, -50%);
-
-    .line_row {
-        width: 100%;
-        overflow: hidden;
-        /*background-image: linear-gradient(0deg,
+        .line_row {
+            width: 100%;
+            overflow: hidden;
+            /*background-image: linear-gradient(0deg,
                 transparent 24%,
                 rgba(136, 176, 255, 0.1) 25%,
                 rgba(136, 176, 255, 0.1) 26%,
@@ -240,131 +246,136 @@ p{
                 rgba(136, 176, 255, 0.1) 76%,
                 transparent 77%,
                 transparent);*/
-        background-size: 3rem 3rem;
-        background-position: -1rem -1rem;
-        animation: Heightchange 2s infinite;
-        animation-timing-function: cubic-bezier(0.53, 0, 0.43, 0.99);
-        animation-delay: 1.4s;
-        border-bottom: 1px solid rgba(136, 176, 255, 0.1);
+            background-size: 3rem 3rem;
+            background-position: -1rem -1rem;
+            animation: Heightchange 2s infinite;
+            animation-timing-function: cubic-bezier(0.53, 0, 0.43, 0.99);
+            animation-delay: 1.4s;
+            border-bottom: 1px solid rgba(136, 176, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+    }
+
+    .Qr_scanner .line {
+        width: 100%;
+        height: 3px;
+        background: #c4c4c4;
+        opacity: 0.58;
+        filter: blur(4px);
+    }
+
+    .Qr_scanner .box:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 63px;
+        height: 63px;
+        border: 0.3rem solid transparent;
+        border-top-right-radius: 10px
+    }
+
+    .Qr_scanner .box:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 63px;
+        height: 63px;
+        border: 0.3rem solid transparent;
+        border-top-left-radius: 10px
+    }
+
+    .Qr_scanner .angle:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 63px;
+        height: 63px;
+        border: 0.3rem solid transparent;
+        border-bottom-right-radius: 10px
+    }
+
+    .Qr_scanner .angle:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 63px;
+        height: 63px;
+        border: 0.3rem solid transparent;
+        border-bottom-left-radius: 10px
+    }
+
+    .Qr_scanner .box:after,
+    .Qr_scanner .box:before {
+        top: -7px;
+        border-top-color: #c4c4c4;
+    }
+
+    .Qr_scanner .angle:after,
+    .Qr_scanner .angle:before {
+        bottom: -7px;
+        border-bottom-color: #c4c4c4;
+    }
+
+    .Qr_scanner .box:before,
+    .Qr_scanner .angle:before {
+        left: -7px;
+        border-left-color: #c4c4c4;
+    }
+
+    .Qr_scanner .box:after,
+    .Qr_scanner .angle:after {
+        right: -7px;
+        border-right-color: #c4c4c4;
+    }
+
+    @keyframes radar-beam {
+        0% {
+            transform: translateY(-100%);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes Heightchange {
+        0% {
+            height: 0;
+        }
+
+        100% {
+            height: 100%;
+        }
+    }
+
+    .info_notify {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
         display: flex;
+        align-items: center;
         justify-content: center;
-        align-items: flex-end;
-    }
-}
+        flex-direction: column;
 
-.Qr_scanner .line {
-    width: 100%;
-    height: 3px;
-    background: #c4c4c4;
-    opacity: 0.58;
-    filter: blur(4px);
-}
-
-.Qr_scanner .box:after{
-    content: '';
-    display: block;
-    position: absolute;
-    width: 63px;
-    height: 63px;
-    border: 0.3rem solid transparent;
-    border-top-right-radius:10px
-}
-.Qr_scanner .box:before{
-    content: '';
-    display: block;
-    position: absolute;
-    width: 63px;
-    height: 63px;
-    border: 0.3rem solid transparent;
-    border-top-left-radius:10px
-}
-.Qr_scanner .angle:after{
-    content: '';
-    display: block;
-    position: absolute;
-    width: 63px;
-    height: 63px;
-    border: 0.3rem solid transparent;
-    border-bottom-right-radius:10px
-}
-.Qr_scanner .angle:before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 63px;
-    height: 63px;
-    border: 0.3rem solid transparent;
-    border-bottom-left-radius:10px
-}
-
-.Qr_scanner .box:after,
-.Qr_scanner .box:before {
-    top: -7px;
-    border-top-color: #c4c4c4;
-}
-
-.Qr_scanner .angle:after,
-.Qr_scanner .angle:before {
-    bottom: -7px;
-    border-bottom-color: #c4c4c4;
-}
-
-.Qr_scanner .box:before,
-.Qr_scanner .angle:before {
-    left: -7px;
-    border-left-color: #c4c4c4;
-}
-
-.Qr_scanner .box:after,
-.Qr_scanner .angle:after {
-    right: -7px;
-    border-right-color: #c4c4c4;
-}
-
-@keyframes radar-beam {
-    0% {
-        transform: translateY(-100%);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@keyframes Heightchange {
-    0% {
-        height: 0;
-    }
-
-    100% {
+        background-color: #ffffff;
+        width: 100%;
         height: 100%;
+        z-index: 998;
+        padding-top: 100px;
     }
-}
 
-.info_notify {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    .qr_title {
+        color: #f4f5f8;
+        padding-top: 37px;
+        padding-left: 37px;
+        padding-right: 37px
+    }
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction:column;
-
-    background-color: #ffffff;
-    width: 100%;
-    height: 100%;
-    z-index: 998;
-    padding-top: 100px;
-}
-.qr_title{
-    color:#f4f5f8;
-    padding-top:37px;
-    padding-left:37px;
-    padding-right:37px
-}
-.qr_title h1{
-    padding-bottom:10px;
-}
-</style> 
+    .qr_title h1 {
+        padding-bottom: 10px;
+    }
+</style>

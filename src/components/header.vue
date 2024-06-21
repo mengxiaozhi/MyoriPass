@@ -1,72 +1,72 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useUserStore } from '@/store/userStore';
-import { useRouter } from 'vue-router';
-import info from '@/assets/info.json';
-import axios from 'axios';
-import 'animate.css';
-import Hammer from 'hammerjs';
+    import { ref, onMounted, computed } from 'vue';
+    import { useUserStore } from '@/store/userStore';
+    import { useRouter } from 'vue-router';
+    import info from '@/assets/info.json';
+    import axios from 'axios';
+    import 'animate.css';
+    import Hammer from 'hammerjs';
 
-const router = useRouter();
-// 用戶狀態管理
-const userStore = useUserStore();
-// 版本資訊
-const version = ref('');
-// 用戶登入狀態
-const status = computed(() => userStore.status);
+    const router = useRouter();
+    // 用戶狀態管理
+    const userStore = useUserStore();
+    // 版本資訊
+    const version = ref('');
+    // 用戶登入狀態
+    const status = computed(() => userStore.status);
 
-// 控制菜單可見性
-const menuVisible = ref(false);
+    // 控制菜單可見性
+    const menuVisible = ref(false);
 
-onMounted(() => {
-    if (info && info.version) {
-        version.value = info.version;
-    } else {
-        console.error("版本號錯誤");
-    }
-});
-
-// 切換菜單可見性
-const toggleMenu = () => {
-    menuVisible.value = !menuVisible.value;
-};
-
-// 點擊標題跳轉
-const handleTitleClick = () => {
-    router.push(status.value === 1 ? '/main/user' : '/main');
-};
-
-// 用戶登出
-const logoutUser = async () => {
-    try {
-        const response = await axios.get('/api/exit.php');
-        if (response.data.status === 'success') {
-            userStore.clearUser();
-            userStore.setStatus(0);
-            menuVisible.value = false;
-            router.push('/main/');
+    onMounted(() => {
+        if (info && info.version) {
+            version.value = info.version;
         } else {
-            throw new Error('登出失敗');
+            console.error("版本號錯誤");
         }
-    } catch (error) {
-        console.error('登出過程中出錯:', error);
-    }
-};
-
-//hammerjs初始化，側邊欄手勢
-onMounted(() => {
-    // 初始化 Hammer 实例
-    const mc = new Hammer(document.body);
-
-    // 检测滑动手势
-    mc.on('swiperight', () => {
-        menuVisible.value = true; // 向右滑动时显示侧边栏
     });
 
-    mc.on('swipeleft', () => {
-        menuVisible.value = false; // 向左滑动时隐藏侧边栏
+    // 切換菜單可見性
+    const toggleMenu = () => {
+        menuVisible.value = !menuVisible.value;
+    };
+
+    // 點擊標題跳轉
+    const handleTitleClick = () => {
+        router.push(status.value === 1 ? '/main/user' : '/main');
+    };
+
+    // 用戶登出
+    const logoutUser = async () => {
+        try {
+            const response = await axios.get('/api/exit.php');
+            if (response.data.status === 'success') {
+                userStore.clearUser();
+                userStore.setStatus(0);
+                menuVisible.value = false;
+                router.push('/main/');
+            } else {
+                throw new Error('登出失敗');
+            }
+        } catch (error) {
+            console.error('登出過程中出錯:', error);
+        }
+    };
+
+    //hammerjs初始化，側邊欄手勢
+    onMounted(() => {
+        // 初始化 Hammer 实例
+        const mc = new Hammer(document.body);
+
+        // 检测滑动手势
+        mc.on('swiperight', () => {
+            menuVisible.value = true; // 向右滑动时显示侧边栏
+        });
+
+        mc.on('swipeleft', () => {
+            menuVisible.value = false; // 向左滑动时隐藏侧边栏
+        });
     });
-});
 </script>
 
 
@@ -82,23 +82,25 @@ onMounted(() => {
                 <h1>MyoriPass</h1>
             </div>
         </button>
-            <button  v-if="status === 0" class="menu-btn">
-                <a href="https://pass.myori.org/" target="_blank">
-                    <img src="/icn_help.svg" alt="Help" style="height: 27px; width: 27px;">
-                </a>
-            </button>
-            <button v-if="status === 1" class="menu-btn">
-                <RouterLink to="/main/reader">
-                    <img src="/icn_reader.svg" alt="QR-Code_Reader" style="height: 27px; width: 27px;">
-                </RouterLink>
-            </button>
+        <button v-if="status === 0" class="menu-btn">
+            <a href="https://pass.myori.org/" target="_blank">
+                <img src="/icn_help.svg" alt="Help" style="height: 27px; width: 27px;">
+            </a>
+        </button>
+        <button v-if="status === 1" class="menu-btn">
+            <RouterLink to="/main/reader">
+                <img src="/icn_reader.svg" alt="QR-Code_Reader" style="height: 27px; width: 27px;">
+            </RouterLink>
+        </button>
     </header>
     <!--header-->
-    <div v-if="menuVisible" class="menuVisible hidden-menu-wrap animate__animated animate__fadeIn" @click="closeOnOverlay">
+    <div v-if="menuVisible" class="menuVisible hidden-menu-wrap animate__animated animate__fadeIn"
+        @click="closeOnOverlay">
         <div class="hidden-menu animate__animated animate__fadeInLeftBig" @click.stop>
             <div style="display:flex;justify-content: space-between;padding-left:30px;">
                 <div style="display:flex">
-                    <img src="/logo.png" alt="logo" style="height: 37px; width: 37px;padding-top:1em;padding-right:10px;">
+                    <img src="/logo.png" alt="logo"
+                        style="height: 37px; width: 37px;padding-top:1em;padding-right:10px;">
                     <h3 style="padding-top: 0;">MyoriPass 苗栗通</h3>
                 </div>
                 <button @click="toggleMenu" class="menu-btn" id="menu-close">
@@ -154,7 +156,7 @@ onMounted(() => {
     </div>
 </template>
 <style>
-li:hover{
-    background-color: #f3f4f5;
-}
+    li:hover {
+        background-color: #f3f4f5;
+    }
 </style>

@@ -1,86 +1,86 @@
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
-export default {
-    setup() {
+    import { ref } from 'vue';
+    import axios from 'axios';
+    import { useRouter } from 'vue-router';
+    export default {
+        setup() {
 
-        const email = ref('');
-        const name = ref('');
-        const selectedCountry = ref('');
-        const id = ref('');
-        const password = ref('');
-        const confirmPassword = ref('');
-        const registrationSuccess = ref(false);
-        const message = ref('');
-        const countries = ref([]);
+            const email = ref('');
+            const name = ref('');
+            const selectedCountry = ref('');
+            const id = ref('');
+            const password = ref('');
+            const confirmPassword = ref('');
+            const registrationSuccess = ref(false);
+            const message = ref('');
+            const countries = ref([]);
 
-        const router = useRouter();
+            const router = useRouter();
 
-  
-        const submitForm = async (event) => {
-            event.preventDefault();
 
-            if (password.value !== confirmPassword.value) {
-                message.value = "密碼與確認密碼不符，請重新輸入。";
-                return;
-            }
+            const submitForm = async (event) => {
+                event.preventDefault();
 
-            const formData = new URLSearchParams();
-            formData.append('email', email.value);
-            formData.append('name', name.value);
-            formData.append('countries', selectedCountry.value);
-            formData.append('id', id.value);
-            formData.append('password', password.value);
-
-            try {
-                const response = await axios.post('/api/register.php', formData);
-                //登入狀態
-                console.log(response.data)
-                if (response.data.success === true) { // 檢查註冊成功
-                    registrationSuccess.value = true;
-                    message.value = response.data;
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                alert(response.data.success)
-                    message.value = response.data; 
+                if (password.value !== confirmPassword.value) {
+                    message.value = "密碼與確認密碼不符，請重新輸入。";
+                    return;
                 }
-            } catch (error) {
-                message.value = "提交時發生錯誤: " + error.toString();
-            }
-        };
 
-        // 獲取國家數據
-        const fetchCountries = async () => {
-            try {
-                const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
-                countries.value = response.data;
-            } catch (error) {
-                console.error("獲取國家數據時出錯:", error);
-            }
-        };
-        const letToLogin = () => {
-            router.push('/user/login'); 
-        };
+                const formData = new URLSearchParams();
+                formData.append('email', email.value);
+                formData.append('name', name.value);
+                formData.append('countries', selectedCountry.value);
+                formData.append('id', id.value);
+                formData.append('password', password.value);
 
-        fetchCountries();
+                try {
+                    const response = await axios.post('/api/register.php', formData);
+                    //登入狀態
+                    console.log(response.data)
+                    if (response.data.success === true) { // 檢查註冊成功
+                        registrationSuccess.value = true;
+                        message.value = response.data;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                        alert(response.data.success)
+                        message.value = response.data;
+                    }
+                } catch (error) {
+                    message.value = "提交時發生錯誤: " + error.toString();
+                }
+            };
 
-       
-        return {
-            email,
-            name,
-            selectedCountry,
-            id,
-            password,
-            confirmPassword,
-            registrationSuccess,
-            message,
-            countries,
-            submitForm,
-            letToLogin
-        };
-    },
-};
+            // 獲取國家數據
+            const fetchCountries = async () => {
+                try {
+                    const response = await axios.get('https://raw.githubusercontent.com/mengxiaozhi/country_code/main/code.json');
+                    countries.value = response.data;
+                } catch (error) {
+                    console.error("獲取國家數據時出錯:", error);
+                }
+            };
+            const letToLogin = () => {
+                router.push('/user/login');
+            };
+
+            fetchCountries();
+
+
+            return {
+                email,
+                name,
+                selectedCountry,
+                id,
+                password,
+                confirmPassword,
+                registrationSuccess,
+                message,
+                countries,
+                submitForm,
+                letToLogin
+            };
+        },
+    };
 </script>
 
 
@@ -172,26 +172,27 @@ export default {
 </template>
 
 <style scoped>
-.success-message {
-    border: 2px solid #0017c1;
-    background-color: transparent;
-    color: #0017c1;
-    padding: 10px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .success-message {
+        border: 2px solid #0017c1;
+        background-color: transparent;
+        color: #0017c1;
+        padding: 10px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.success-message i {
-    margin-right: 6px;
-    margin-top: 2px;
-    color: #0017c1;
-}
-.bold-text {
-    font-weight: bold;
-}
+    .success-message i {
+        margin-right: 6px;
+        margin-top: 2px;
+        color: #0017c1;
+    }
+
+    .bold-text {
+        font-weight: bold;
+    }
 
 </style>

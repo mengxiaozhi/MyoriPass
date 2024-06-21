@@ -1,74 +1,74 @@
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
-export default {
-    setup() {
+    import { ref } from 'vue';
+    import axios from 'axios';
+    import { useRouter } from 'vue-router';
+    export default {
+        setup() {
 
-        const email = ref('');
-        const name = ref('');
-        const id = ref('');
-        const selectedCountry = ref('MAL')
-        const password = ref('');
-        const confirmPassword = ref('');
-        const registrationSuccess = ref(false);
-        const message = ref('');
-        const countries = ref([]);
-        const router = useRouter();
+            const email = ref('');
+            const name = ref('');
+            const id = ref('');
+            const selectedCountry = ref('MAL')
+            const password = ref('');
+            const confirmPassword = ref('');
+            const registrationSuccess = ref(false);
+            const message = ref('');
+            const countries = ref([]);
+            const router = useRouter();
 
 
-        const submitForm = async (event) => {
-            event.preventDefault();
+            const submitForm = async (event) => {
+                event.preventDefault();
 
-            if (password.value !== confirmPassword.value) {
-                message.value = "密碼與確認密碼不符，請重新輸入。";
-                return;
-            }
-
-            const formData = new URLSearchParams();
-            formData.append('email', email.value);
-            formData.append('name', name.value);
-            formData.append('countries', selectedCountry.value);
-            formData.append('password', password.value);
-
-            try {
-                const response = await axios.post('/api/digital.php', formData);
-                //登入狀態
-              
-                if (response.data.success === true) { // 檢查註冊成功
-                    registrationSuccess.value = true;
-                    message.value = response.data;
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                
-                    message.value = response.data; 
+                if (password.value !== confirmPassword.value) {
+                    message.value = "密碼與確認密碼不符，請重新輸入。";
+                    return;
                 }
-            } catch (error) {
-                message.value = "提交時發生錯誤: " + error.toString();
-            }
-        };
-        const letToLogin = () => {
-            router.push('/main/login');
-        };
+
+                const formData = new URLSearchParams();
+                formData.append('email', email.value);
+                formData.append('name', name.value);
+                formData.append('countries', selectedCountry.value);
+                formData.append('password', password.value);
+
+                try {
+                    const response = await axios.post('/api/digital.php', formData);
+                    //登入狀態
+
+                    if (response.data.success === true) { // 檢查註冊成功
+                        registrationSuccess.value = true;
+                        message.value = response.data;
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+
+                        message.value = response.data;
+                    }
+                } catch (error) {
+                    message.value = "提交時發生錯誤: " + error.toString();
+                }
+            };
+            const letToLogin = () => {
+                router.push('/main/login');
+            };
 
 
 
 
-        return {
-            email,
-            name,
-            selectedCountry,
-            id,
-            password,
-            confirmPassword,
-            registrationSuccess,
-            message,
-            countries,
-            submitForm,
-            letToLogin
-        };
-    },
-};
+            return {
+                email,
+                name,
+                selectedCountry,
+                id,
+                password,
+                confirmPassword,
+                registrationSuccess,
+                message,
+                countries,
+                submitForm,
+                letToLogin
+            };
+        },
+    };
 </script>
 
 <template>
@@ -140,26 +140,26 @@ export default {
 </template>
 
 <style scoped>
-.success-message {
-    border: 2px solid #0017c1;
-    background-color: transparent;
-    color: #0017c1;
-    padding: 10px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .success-message {
+        border: 2px solid #0017c1;
+        background-color: transparent;
+        color: #0017c1;
+        padding: 10px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-.success-message i {
-    margin-right: 6px;
-    margin-top: 2px;
-    color: #0017c1;
-}
+    .success-message i {
+        margin-right: 6px;
+        margin-top: 2px;
+        color: #0017c1;
+    }
 
-.bold-text {
-    font-weight: bold;
-}
+    .bold-text {
+        font-weight: bold;
+    }
 </style>
