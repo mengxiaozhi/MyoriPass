@@ -8,8 +8,8 @@
   </style>
   <section class="grid md:grid-cols-2 gap-12 items-center">
     <div>
-      <h1 class="text-4xl md:text-5xl font-bold mb-6 animate__animated animate__fadeInDown">海關、申報、身分識別！</h1>
-      <p class="text-lg md:text-xl text-gray-600 mb-8 animate__animated animate__fadeInDown">MyoriPass苗栗通可以完成你<mark>出入境苗栗</mark>的全部事項。也能作為你在苗栗國境內合法的身分識別證件。</p>
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 animate-on-fadeInDown">海關、申報、身分識別！</h1>
+      <p class="text-lg md:text-xl text-gray-600 mb-8 animate-on-fadeInDown">MyoriPass苗栗通可以完成你<mark>出入境苗栗</mark>的全部事項。也能作為你在苗栗國境內合法的身分識別證件。</p>
       <a href="/main">
         <button class="
         inline-flex 
@@ -32,9 +32,7 @@
         bg-[#0017c1] 
         text-white 
         hover:bg-[#011e76]
-        animate__animated
-        animate__fadeInUp
-        animate__delay-1s
+        animate-on-fadeInUp
         ">Web線上使用</button>
       </a>
       <a href="https://play.google.com/store/apps/details?id=com.myori.pass">
@@ -59,9 +57,7 @@
         bg-[#01875f] 
         text-white 
         hover:bg-[#056449]
-        animate__animated
-        animate__fadeInUp
-        animate__delay-1s
+        animate-on-fadeInUp
         ">Google Play下載</button>
       </a>
     </div>
@@ -105,7 +101,7 @@
     </div>
   </section>
   <section class="pt-9">
-<div class="bg-gray-100 py-12 md:py-16 lg:py-20">
+<div class="bg-gray-100 py-12 md:py-16 lg:py-20 animate-on-fadeInUp">
   <div class="container mx-auto px-4 md:px-6">
     <div class="mx-auto max-w-2xl text-center">
       <div class="mb-4 inline-block rounded-full bg-gray-200 px-4 py-1 text-sm font-medium text-gray-700">
@@ -129,3 +125,49 @@
   </div>
 </div>
 </section>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const observerOptions = {
+      root: null, // 這是視窗
+      rootMargin: '0px',
+      threshold: 0.1 // 當10%的元素可見時觸發
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate__animated','animate__fadeInDown');
+          observer.unobserve(entry.target); // 添加動畫後停止觀察該元素
+        }
+      });
+    }, observerOptions);
+
+    // 觀察所有需要動畫的元素
+    document.querySelectorAll('.animate-on-fadeInDown').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const observerOptions = {
+      root: null, // 這是視窗
+      rootMargin: '0px',
+      threshold: 0.1 // 當10%的元素可見時觸發
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate__animated', 'animate__fadeInUp','animate__delay-1s');
+          observer.unobserve(entry.target); // 添加動畫後停止觀察該元素
+        }
+      });
+    }, observerOptions);
+
+    // 觀察所有需要動畫的元素
+    document.querySelectorAll('.animate-on-fadeInUp').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>

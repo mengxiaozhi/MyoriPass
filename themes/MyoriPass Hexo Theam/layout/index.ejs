@@ -11,7 +11,7 @@
       <ul class="space-y-4">
         <% page.posts.each(function (post) { %>
         <a class="p-4" href="<%- url_for(post.path) %>">
-          <li class="border rounded-lg p-4 flex justify-between items-center hover:border-sky-500 animate__animated animate__fadeInUp">
+          <li class="border rounded-lg p-4 flex justify-between items-center hover:border-sky-500 animate-on-fadeInUp">
             <div>
               <h2 class="text-lg font-semibold">
                 <%= post.title %>
