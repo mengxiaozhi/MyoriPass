@@ -136,6 +136,7 @@
   </div>
   <div v-if="records && records.length > 0" class="a_list">
     <div v-for="record in records" :key="record.record_code" class="record_item animate__animated animate__fadeInUp">
+      <h3 class="message">{{ record.message }}</h3>
       <p>授權編號：{{ record.record_code }}</p>
       <p>授權時間：{{ formatDate(record.timedate) }}</p>
       <p>要授權人：{{ record.user_name }}</p>
@@ -179,5 +180,8 @@
 
   .sort-options label {
     margin-right: 10px;
+  }
+  h3 {
+    padding-top: 0px;
   }
 </style>
