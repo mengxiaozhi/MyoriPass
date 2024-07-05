@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         r.record_code AS record_code,
         r.timedate AS timedate,
         r.authorize_uid AS authorize_uid,
+        r.message AS message,
         u.name AS user_name,
         au.name AS authorize_name
         FROM record r
