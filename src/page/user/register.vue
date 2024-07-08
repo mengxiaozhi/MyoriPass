@@ -60,7 +60,7 @@
                 }
             };
             const letToLogin = () => {
-                router.push('/user/login');
+                router.push('/main/login');
             };
 
             fetchCountries();
