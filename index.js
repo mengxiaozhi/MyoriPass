@@ -20,9 +20,9 @@ app.use(session({
 // Database connection
 const connection = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'myoripass',
-    password: process.env.DB_PASSWORD || 'myoripass233',
-    database: process.env.DB_NAME || 'myoripass'
+    user: process.env.DB_USER || 'database',
+    password: process.env.DB_PASSWORD || 'username',
+    database: process.env.DB_NAME || 'password'
 });
 
 connection.connect((err) => {
