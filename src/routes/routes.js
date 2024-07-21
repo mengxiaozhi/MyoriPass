@@ -14,6 +14,8 @@ const routes = [
   { name: '主動授權', path: '/main/reader', component: () => import('../page/user/reader.vue') },
   { name: '授權列表', path: '/main/list', component: () => import('../page/user/list.vue') },
   { name: '更多', path: '/main/more', component: () => import('../page/user/more.vue') },
+  { name: '忘記密碼', path: '/main/forgot', component: () => import('../page/forgot.vue') },
+  { name: '重設密碼', path: '/main/reset', component: () => import('../page/reset.vue') },
   { name: 'NotFound', path: '/main/404', component: () => import('../page/404.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/main/404' } 
 ]

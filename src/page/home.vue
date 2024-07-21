@@ -54,6 +54,11 @@
     </div>
   </div>
   <div style="display: flex; justify-content: center;">
+      <p>
+        <router-link to="/main/forgot">忘記密碼</router-link>
+      </p>
+    </div>
+  <div style="display: flex; justify-content: center;">
     <p>
       使用前請閲讀
       <RouterLink to="/main/terms">使用規約</RouterLink> 及 <RouterLink to="/main/privacy">個人隱私權條款</RouterLink>
