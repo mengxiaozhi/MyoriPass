@@ -29,7 +29,7 @@ const router = createRouter({
 })
 router.beforeEach((to, from, next) => {
   // 在每个页面加载时触发检查用户状态
-  axios.get('https://pass.myori.org/api/check_status.php', { withCredentials: true })
+  axios.get('/api/check_status.php', { withCredentials: true })
     .then(response => {
       const userStore = useUserStore();
       if (response.data.success) {
