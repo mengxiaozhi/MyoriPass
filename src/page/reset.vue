@@ -17,7 +17,7 @@ export default {
             }
 
             try {
-                const response = await axios.post('https://pass.myori.org/api/reset-password', {
+                const response = await axios.post('/api/reset-password', {
                     reset_code: form.value.reset_code,
                     new_password: form.value.new_password
                 }, {

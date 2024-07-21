@@ -37,13 +37,18 @@
   <div style="display: flex; justify-content: center; margin-bottom:37px;margin-top:37px">
     <img src="/m_12_white.png" alt="logo" style="width: 100%;">
   </div>
-  <div>
+  <div style="margin-top: 55px">
     <div class="button">
       <RouterLink to="/main/login">
         <button class="btn btn-default" id="login">
           <h3>登入現有賬號</h3>
         </button>
       </RouterLink>
+    </div>
+    <div style="display: flex; justify-content: center;margin-top: -1.3px;margin-bottom: -1.3px;">
+      <p>
+        <router-link to="/main/forgot">忘記密碼</router-link>
+      </p>
     </div>
     <div class="register">
       <RouterLink to="/main/register">
@@ -53,15 +58,15 @@
       </RouterLink>
     </div>
   </div>
-  <div style="display: flex; justify-content: center;">
-      <p>
-        <router-link to="/main/forgot">忘記密碼</router-link>
-      </p>
-    </div>
-  <div style="display: flex; justify-content: center;">
+  <div style="display: flex; justify-content: center; margin-top: 73px;">
     <p>
       使用前請閲讀
       <RouterLink to="/main/terms">使用規約</RouterLink> 及 <RouterLink to="/main/privacy">個人隱私權條款</RouterLink>
     </p>
   </div>
 </template>
+<style scoped>
+button{
+  margin-top: 0px;
+}
+</style>

@@ -45,19 +45,19 @@
 
 <template>
     <div>
-        <h2>忘记密码</h2>
-        <h3 class="title-section">关于使用</h3>
-        <p style="display: flex;justify-content: center;">
-            输入您账户所绑定的E-mail，我们将对你的邮箱发送验证码用于验证您的身份
+        <h2>忘記密碼</h2>
+        <h3 class="title-section">關於忘記密碼</h3>
+        <p style="display: flex;">
+            輸入您帳戶所綁定的E-mail，我們將對您的郵箱發送驗證碼用於驗證您的身份
         </p>
-        <h3 class="title-section">输入账号资料</h3>
+        <h3 class="title-section">輸入帳號資料</h3>
         <div>
             <form @submit.prevent="forget">
                 <div>
                     <label>
                         <h3>Email地址</h3>
                     </label>
-                    <input v-model="username" type="text" name="email" placeholder="Email" required>
+                    <input v-model="username" type="email" name="email" placeholder="Email" required>
                 </div>
                 <div class="button">
                     <button type="submit" class="btn btn-default" id="login">
