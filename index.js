@@ -67,13 +67,13 @@ app.post('/forgot-password', (req, res) => {
             req.session.email = email;
 
             sendResetEmail(email, reset_code).then(() => {
-                res.send('A reset code has been sent to your email address.');
+                res.send('驗證碼已發送到您的Email');
             }).catch(err => {
                 console.error(err);
-                res.status(500).send('Failed to send email.');
+                res.status(500).send('發送電子郵件失敗');
             });
         } else {
-            res.status(404).send('No account found with that email address.');
+            res.status(404).send('沒有找到您的Email地址');
         }
     });
 });
@@ -93,11 +93,11 @@ app.post('/reset-password', (req, res) => {
                 if (error) return res.status(500).send('Database error');
 
                 req.session.destroy();
-                res.send('Your password has been reset successfully.');
+                res.send('您的密碼已重置完成');
             });
         });
     } else {
-        res.status(400).send('Invalid reset code.');
+        res.status(400).send('無效的驗證碼');
     }
 });
 
