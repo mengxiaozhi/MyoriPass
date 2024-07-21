@@ -1,0 +1,15 @@
+[Unit]
+Description=MyoripassNode
+After=network.target
+
+[Service]
+ExecStart=/usr/local/node/bin/node /data/wwwroot/pass.myori.org/api/node/index.js
+Restart=always
+User=root
+Group=root
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/data/wwwroot/pass.myori.org/api/node/
+
+[Install]
+WantedBy=multi-user.target
