@@ -25,13 +25,19 @@
 
                     // 如果没有状态码，或者状态码成功（假设成功状态码是 200）
                     if (!response.data || response.status === 200) {
+                        alert('驗證碼已發送到您的郵箱，請查收。');
                         router.push('/main/reset');
                     } else {
-                        alert('发送邮件失败，请检查您的邮箱地址。');
+                        alert('發送郵件失敗，請檢查您的郵箱地址。');
                     }
                 } catch (error) {
-                    console.error('发送邮件过程中出错:', error);
-                    alert('发送邮件时出错，请稍后再试。');
+                    console.error('發送郵件過程中出錯:', error);
+                    // 如果服务器返回错误消息，则显示该消息
+                    if (error.response && error.response.data) {
+                        alert(error.response.data);
+                    } else {
+                        alert('發送郵件時出錯，請稍後再試。');
+                    }
                 }
             };
 
