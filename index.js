@@ -92,8 +92,10 @@ app.post('/reset-password', (req, res) => {
             connection.query('UPDATE user SET password = ? WHERE email = ?', [hashed_password, email], (error) => {
                 if (error) return res.status(500).send('Database error');
 
-                req.session.destroy();
-                res.send('您的密碼已重置完成');
+                req.session.destroy((err) => {
+                    if (err) return res.status(500).send('Error destroying session');
+                    res.send('您的密碼已重置完成');
+                });
             });
         });
     } else {
