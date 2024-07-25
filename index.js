@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const RedisStore = require('connect-redis').default; // 使用最新版本的 connect-redis
+const { createClient } = require('redis');
 const nodemailer = require('nodemailer');
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
@@ -9,12 +11,23 @@ require('dotenv').config(); // 加载环境变量
 const app = express();
 const port = 3000;
 
+// Redis 客戶端
+const redisClient = createClient({
+    socket: {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: process.env.REDIS_PORT || 6379
+    }
+});
+
+redisClient.connect().catch(console.error);
+
 // Middlewares
 app.use(bodyParser.json());
 app.use(session({
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET || 'your_secret_key',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false
 }));
 
 // Database connection
