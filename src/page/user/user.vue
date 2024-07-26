@@ -13,7 +13,6 @@
       const displayedName = ref('');
       const greeting = ref('');
       const router = useRouter();
-      const records = ref([]); // 新增 records 變數來存儲授權紀錄
 
       // 倒數計時器
       const countdown = ref(30);
@@ -41,23 +40,9 @@
           });
       };
 
-      const fetchAuthorizeRecords = () => {
-        axios.get('/api/get_authorize.php')
-          .then(response => {
-            // 将授权记录按时间由大到小排序
-            records.value = response.data.records.sort((a, b) => { // 將授權紀錄存入 records
-              return new Date(b.timedate) - new Date(a.timedate); // 将时间字符串转换为时间戳，然后比较
-            });
-          })
-          .catch(error => {
-            console.error('獲取授權紀錄時出錯', error);
-          });
-      };
-
       // Function to fetch user data every 30 seconds
       const refreshUserData = () => {
         fetchUserData();
-        fetchAuthorizeRecords();
       };
 
       // qrcode
@@ -71,7 +56,6 @@
       // Call fetchUserData on component mount
       onMounted(() => {
         fetchUserData();
-        fetchAuthorizeRecords();
 
         // Refresh user data every 30 seconds
         setInterval(refreshUserData, 30000);
@@ -88,8 +72,7 @@
         displayedName,
         greeting,
         qrCodeImageUrl,
-        countdown,
-        records
+        countdown
       };
     },
   };

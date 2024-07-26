@@ -29,21 +29,23 @@ const router = createRouter({
   routes,//路由表
   mode: 'history' // history 改为 hash
 })
-//router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   // 在每个页面加载时触发检查用户状态
-  //axios.get('/api/check_status.php', { withCredentials: true })
-    //.then(response => {
-      //const userStore = useUserStore();
-      //if (response.data.success) {
-        //userStore.setStatus(1); // 设置用户状态为 1 表示已登录
-      //} else {
-        //userStore.setStatus(0); // 设置用户状态为 0 表示未登录
-      //}
-      //next();
-    //})
-    //.catch(error => {
-      //console.error('用户状态检查失败', error);
-      //next();
-    //});
-//});
+  axios.get('/api/check_status.php', 
+    //{ withCredentials: true }
+    )
+    .then(response => {
+      const userStore = useUserStore();
+      if (response.data.success) {
+        userStore.setStatus(1); // 设置用户状态为 1 表示已登录
+      } else {
+        userStore.setStatus(0); // 设置用户状态为 0 表示未登录
+      }
+      next();
+    })
+    .catch(error => {
+      console.error('用户状态检查失败', error);
+      next();
+    });
+});
 export default router
